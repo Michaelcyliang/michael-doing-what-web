@@ -158,9 +158,11 @@ export default function HomePage() {
               onClick={() => handleNavigate('war-room', 'all')}
               className="flex items-center gap-2.5 text-left"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                M
-              </div>
+              <img
+                src={assetPath('/images/michael-logo.png')}
+                alt="麥克在幹嘛 Logo"
+                className="w-9 h-9 rounded-lg object-cover shadow-sm border border-slate-200/70 dark:border-slate-700/70"
+              />
               <div className="leading-tight">
                 <div className="font-bold text-sm tracking-tight text-slate-900 dark:text-white">
                   麥克在幹嘛
