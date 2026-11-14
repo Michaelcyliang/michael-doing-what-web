@@ -1,0 +1,186 @@
+{
+  "updatedAt": "2026-11-12",
+  "articles": [
+    {
+      "id": "ai-supply-chain-v5-synthesis",
+      "category": "財經研析",
+      "title": "AI 產業鏈研究報告 v5：由消費者向上游推導的七層架構與硬體瓶頸",
+      "date": "2026-11-02",
+      "readTime": "12 分鐘",
+      "summary": "彙整 2026 年九大 CSP 8,867 億美元資本支出、電力與 HBM 雙瓶頸、CPO 四次測試插入點與台廠供應鏈投資地圖。",
+      "tags": [
+        "AI 供應鏈",
+        "CoWoS",
+        "CPO",
+        "800VDC"
+      ],
+      "file": "/content/learning/articles/ai-supply-chain-v5.md",
+      "content": "# AI 產業鏈研究報告 v5：由消費者向上游推導的七層架構與硬體瓶頸\n\n> 資料基準日：2026 年 10 月 31 日 ｜ 整理：Michael Liang\n\n## 一、執行摘要與核心結論\n\n本報告採用**由下游付費者向上游設備材料推導**的分析框架：**付費者 (L0) → 應用 (L1) → 模型公司 (L2) → 雲端 CSP (L3) → 資料中心與電力 (L4) → 伺服器 ODM (L5) → 零組件 (L6) → 晶圓代工與封裝 (L7) → 設備與材料 (L8)**。\n\n1. **需求鏈的經濟單位是 Token**：2026 年九大 CSP 資本支出預計突破 **8,867 億美元**（TrendForce 2026/8），而主要模型公司年化營收為數百億美元級，資本支出與營收之間存在約一個數量級的落差。產業鏈必須維持每月 **9%–12%** 的 Token 複合增長率，方能支撐當前硬體投資規模。\n2. **瓶頸持續輪動**：2024 年瓶頸為 GPU，2025 年轉為 CoWoS 封裝與資料中心，**2026 年最硬的限制已轉向「電力併網」與「HBM 記憶體」**。\n3. **測試是被低估的結構性環節**：AI 加速器單價達 3–7 萬美元、整櫃價值逾 300 萬美元，漏測成本遠高於測試成本。CPO 更使測試插入點由 1–2 次增至 4 次以上，單顆 PIC 測試可能超過 100 秒。\n\n## 二、Agentic 工作負載與算力結構轉移\n\n隨著大模型從單輪對話轉向深度推理 (Reasoning) 與自主代理 (Agentic Workflow)：\n\n* **推理算力成主流**：推論模型消耗的 Token 已佔整體市場 **60% 以上**；CSP 基礎設施中用於推論的算力佔比達三分之二。\n* **Token 乘數效應**：代理式工作負載因自動拆解任務、呼叫工具與自我糾錯，單次任務消耗的 Token 平均達傳統查詢的 **15 倍以上**。\n* **硬體配比改變**：Agent 工作流帶動 CPU 邏輯調度與高容量 DRAM（KV Cache）配置比重回升。\n\n## 三、關鍵瓶頸與台廠受惠地圖\n\n| 產業層級 | 2026 核心瓶頸與技術轉折 | 台灣代表指標股 |\n| :--- | :--- | :--- |\n| **L4 電力與散熱** | 機櫃功耗突破 136–230kW；800VDC 與 45°C 進水架構省去冷水機 | 台達電 (2308)、光寶科 (2301)、奇鋐 (3017)、雙鴻 (3324) |\n| **L5 伺服器整櫃** | 全球 AI 伺服器估 280 萬台 (+30.5%)；液冷滲透率升至 65% | 鴻海 (2317)、廣達 (2382)、緯創 (3231)、緯穎 (6669) |\n| **L6 零組件 / CPO** | T-glass 玻纖布短缺；ABF 載板 2026–28 缺口擴大；CPO 進入四次測試 | 創意 (3443)、南亞科 (2408)、台光電 (2383)、聯亞 (3081)、上詮 (3363) |\n| **L7 封裝與測試** | CoWoS 產能吃緊；CoPoS (310×310mm) 與玻璃核心基板預計 2028 後放量 | 台積電 (2330)、日月光 (3711)、京元電 (2449)、旺矽 (6223)、鴻勁 (7769) |\n\n## 四、資本層風險：供應商出資與期限錯配\n\n* **供應商信用循環**：NVIDIA 對 OpenAI 進行 300 億美元現金投資並提供最高 1,050 億美元園區租金與電力擔保；AMD 與 OpenAI 簽訂認股權合約。\n* **期限錯配 (Tenure Mismatch)**：供給側（資料中心租約、電力 Take-or-pay 合約）綁定長達 10–20 年不可取消義務，但需求側企業客戶隨時可切換模型。研究台廠訂單時，需穿透最終付費方並區分自由現金流訂單與融資循環訂單。\n"
+    },
+    {
+      "id": "game-theory-nash-mechanism",
+      "category": "賽局理論",
+      "title": "賽局理論筆記：納許均衡、機制設計與不完全資訊下的供應鏈博弈",
+      "date": "2026-10-16",
+      "readTime": "9 分鐘",
+      "summary": "整理《賽局理論》系列 9 份講義核心模型，並將「訊號傳遞、承諾可信度與拍賣機制」應用於科技供應鏈定價權分析。",
+      "tags": [
+        "納許均衡",
+        "機制設計",
+        "混合策略",
+        "供應鏈博弈"
+      ],
+      "file": "/content/learning/articles/game-theory-notes.md",
+      "content": "# 賽局理論筆記：納許均衡、機制設計與不完全資訊下的供應鏈博弈\n\n> 整理自 `Data_Pipeline/Learning/賽局理論/` 講義第 2–10 篇\n\n## 一、從優勢策略到納許均衡 (Nash Equilibrium)\n\n在多人決策賽局中，若每個參與者在給定其他參與者策略的前提下，都沒有動機單方面偏離自己的選擇，該策略組合即構成**納許均衡**。\n\n* **純策略 vs. 混合策略 (Mixed Strategy)**：當市場競爭存在隨機化定價或產能配置（如第 9、10 講所述之隨機化戰略），參與者會透過機率分佈讓對手無從預測，以最大化期望報酬。\n* **最佳回應 (Best Response)**：分析競爭對手財報指引與資本支出時，應推演「若對手擴產 30%，我方的最佳回應函數為何」，而非僅看單一廠商的靜態目標。\n\n## 二、動態賽局與可信承諾 (Credible Commitment)\n\n在時間軸展開的序貫賽局中，先動優勢 (First-Mover Advantage) 能否成立，取決於**承諾是否具備不可逆性**：\n\n1. **Take-or-Pay 長約**：模型公司與 CSP 簽署不可取消的算力與電力合約，本質上就是透過「自我束縛 (Self-binding)」向基礎設施開發商傳遞可信承諾，換取優先併網與產能鎖定。\n2. **沉沒成本與嚇阻**：半導體大廠在先進製程與 CoWoS 上千億美元的資本支出，對後進者形成結構性的進入嚇阻均衡。\n\n## 三、機制設計 (Mechanism Design) 與資訊不對稱\n\n機制設計被稱為「逆向賽局理論」：先設定期望的均衡結果（如產能分配效率或真實揭露需求），再反推遊戲規則。\n\n* **顯示原理 (Revelation Principle)**：在合理的激勵相容 (Incentive Compatibility) 條件下，買方會選擇誠實回報真實需求，避免「重複下單 (Double Booking)」造成的長鞭效應。\n* **觀察重點**：當上游缺料（如 HBM4、T-glass、InP 雷射）發生時，下游客戶往往會有動機誇大預訂量；唯有透過預付款 (Prepayment) 與不可退訂條款，才能篩選出真實需求。\n"
+    },
+    {
+      "id": "ai-learning-gtc-stanford-synthesis",
+      "category": "AI 學習",
+      "title": "實體 AI 與戰略藍圖：GTC 2026 Berlin 與 Sam Altman 史丹佛訪談重點",
+      "date": "2026-10-28",
+      "readTime": "8 分鐘",
+      "summary": "結合 GTC 2026 Berlin 實體 AI (Physical AI) 演進與 Sam Altman 史丹佛 CS183 訪談，梳理邊緣算力、模擬管線與經濟韌性。",
+      "tags": [
+        "Physical AI",
+        "GTC 2026",
+        "Sam Altman",
+        "IE 4.0"
+      ],
+      "file": "/content/learning/articles/ai-learning-synthesis.md",
+      "content": "# 實體 AI 與戰略藍圖：GTC 2026 Berlin 與 Sam Altman 史丹佛訪談重點\n\n> 整理自 `Data_Pipeline/Learning/AI 學習/` 8 份研究報告\n\n## 一、GTC 2026 Berlin：點亮實體 AI (Physical AI) 晨曦\n\n* **從數位生成走向物理世界**：NVIDIA 透過 Omniverse 與 Isaac 模擬平台（搭配 HALO 合成資料生成管線），解決人形機器人與工業自動化「真實物理互動數據稀缺」的瓶頸。\n* **三層非同步控制架構**：高層多模態視覺語言推論 (VLM)、中層運動規劃與低層高頻即時控制分離，使邊緣端記憶體頻寬與低延遲通訊成為機器人 BOM 的關鍵成本中心。\n* **AI 賦能 IE 4.0 與 IIoT**：在製造現場中，結合視覺檢測、設備預測性維護與數位孿生 (Digital Twin)，將工業工程從被動統計推向即時閉環最佳化。\n\n## 二、Sam Altman 史丹佛 CS183 / GSB 戰略藍圖\n\n1. **算力即新型基礎設施**：模型能力的擴展曲線仍受計算規模與高品質推理資料驅動，能源供給與晶片製造將成為科技巨頭長期競爭的核心護城河。\n2. **AI 時代的經濟韌性**：當推理邊際成本持續下降、Agent 工具普及，個人開發者與小型團隊的生產力槓桿將放大數十倍；企業組織正從層級管理轉向「高密度小團隊 + AI 代理協作」。\n3. **28 位費爾茲得主與數學革命**：AI 在形式化驗證 (Formal Verification) 與高階數學猜想證明上的突破，正反過來加速演算法與晶片架構設計的自動化迭代。\n"
+    }
+  ],
+  "pdfGroups": [
+    {
+      "topic": "AI 學習",
+      "slug": "ai-learning",
+      "items": [
+        {
+          "id": "ai-learning-01",
+          "title": "AI 時代經濟不確定性與韌性政策_20261028",
+          "filename": "AI 時代經濟不確定性與韌性政策_20261028.pdf",
+          "sizeMB": 0.47,
+          "url": "/content/learning/pdfs/ai-learning/01_AI__20261028.pdf"
+        },
+        {
+          "id": "ai-learning-02",
+          "title": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊",
+          "filename": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊.pdf",
+          "sizeMB": 0.45,
+          "url": "/content/learning/pdfs/ai-learning/02_AI_28.pdf"
+        },
+        {
+          "id": "ai-learning-03",
+          "title": "AI 賦能 IE 4.0 : IIoT 方法論",
+          "filename": "AI 賦能 IE 4.0 : IIoT 方法論.pdf",
+          "sizeMB": 3.61,
+          "url": "/content/learning/pdfs/ai-learning/03_AI_IE_4_0_IIoT.pdf"
+        },
+        {
+          "id": "ai-learning-04",
+          "title": "GTC2026_Berlin_Keynote_Analysis",
+          "filename": "GTC2026_Berlin_Keynote_Analysis.pdf",
+          "sizeMB": 0.26,
+          "url": "/content/learning/pdfs/ai-learning/04_GTC2026_Berlin_Keynote_Analysis.pdf"
+        },
+        {
+          "id": "ai-learning-05",
+          "title": "Sam Altman Stanford GSB Briefing_2 026 Oct",
+          "filename": "Sam Altman Stanford GSB Briefing_2 026 Oct.pdf",
+          "sizeMB": 11.53,
+          "url": "/content/learning/pdfs/ai-learning/05_Sam_Altman_Stanford_GSB_Briefing_2_026_Oct.pdf"
+        },
+        {
+          "id": "ai-learning-06",
+          "title": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談",
+          "filename": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談.pdf",
+          "sizeMB": 13.8,
+          "url": "/content/learning/pdfs/ai-learning/06_Sam_Altman_AI___CS183.pdf"
+        },
+        {
+          "id": "ai-learning-07",
+          "title": "nvidia-gtc-berlin-2026-keynote-deck",
+          "filename": "nvidia-gtc-berlin-2026-keynote-deck.pdf",
+          "sizeMB": 11.24,
+          "url": "/content/learning/pdfs/ai-learning/07_nvidia-gtc-berlin-2026-keynote-deck.pdf"
+        },
+        {
+          "id": "ai-learning-08",
+          "title": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦",
+          "filename": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦.pdf",
+          "sizeMB": 17.93,
+          "url": "/content/learning/pdfs/ai-learning/08_GTC_2026_Berlin_AI.pdf"
+        }
+      ]
+    },
+    {
+      "topic": "賽局理論",
+      "slug": "game-theory",
+      "items": [
+        {
+          "id": "game-theory-01",
+          "title": "10. 賽局理論與隨機化戰略",
+          "filename": "10. 賽局理論與隨機化戰略.pdf",
+          "sizeMB": 12.36,
+          "url": "/content/learning/pdfs/game-theory/01_10.pdf"
+        },
+        {
+          "id": "game-theory-02",
+          "title": "2. 高階商業賽局戰略",
+          "filename": "2. 高階商業賽局戰略.pdf",
+          "sizeMB": 9.97,
+          "url": "/content/learning/pdfs/game-theory/02_2.pdf"
+        },
+        {
+          "id": "game-theory-03",
+          "title": "3. 賽局戰略與空間競爭",
+          "filename": "3. 賽局戰略與空間競爭.pdf",
+          "sizeMB": 11.01,
+          "url": "/content/learning/pdfs/game-theory/03_3.pdf"
+        },
+        {
+          "id": "game-theory-04",
+          "title": "4. 最佳回應戰略藍圖",
+          "filename": "4. 最佳回應戰略藍圖.pdf",
+          "sizeMB": 9.85,
+          "url": "/content/learning/pdfs/game-theory/04_4.pdf"
+        },
+        {
+          "id": "game-theory-05",
+          "title": "5. 納許均衡與戰略協調",
+          "filename": "5. 納許均衡與戰略協調.pdf",
+          "sizeMB": 9.82,
+          "url": "/content/learning/pdfs/game-theory/05_5.pdf"
+        },
+        {
+          "id": "game-theory-06",
+          "title": "6. The_Strategist_s_Blueprint",
+          "filename": "6. The_Strategist_s_Blueprint.pdf",
+          "sizeMB": 11.01,
+          "url": "/content/learning/pdfs/game-theory/06_6_The_Strategist_s_Blueprint.pdf"
+        },
+        {
+          "id": "game-theory-07",
+          "title": "7. 高階賽局策略實戰",
+          "filename": "7. 高階賽局策略實戰.pdf",
+          "sizeMB": 9.43,
+          "url": "/content/learning/pdfs/game-theory/07_7.pdf"
+        },
+        {
+          "id": "game-theory-08",
+          "title": "8. 高階賽局戰略與機制設計",
+          "filename": "8. 高階賽局戰略與機制設計.pdf",
+          "sizeMB": 10.65,
+          "url": "/content/learning/pdfs/game-theory/08_8.pdf"
+        },
+        {
+          "id": "game-theory-09",
+          "title": "9. 高階賽局與混合策略",
+          "filename": "9. 高階賽局與混合策略.pdf",
+          "sizeMB": 10.84,
+          "url": "/content/learning/pdfs/game-theory/09_9.pdf"
+        }
+      ]
+    }
+  ]
+}
