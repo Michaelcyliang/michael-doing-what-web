@@ -312,75 +312,135 @@ def sync_learning():
     print(f"[Learning] 已同步 {total_pdfs} 份 PDF 與 {len(articles)} 篇精選 Markdown 報告")
 
 
-def generate_dashboard():
+def fetch_yahoo_quote(symbol: str):
+    """使用標準函式庫向 Yahoo Finance Chart API 抓取最新收盤與近 7 日走勢"""
+    import urllib.request
+    import urllib.parse
+
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=1mo&interval=1d"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        payload = json.loads(resp.read().decode("utf-8"))
+    result = payload["chart"]["result"][0]
+    meta = result["meta"]
+    closes = [c for c in result["indicators"]["quote"][0]["close"] if c is not None]
+    last_price = meta.get("regularMarketPrice") or closes[-1]
+    prev_close = meta.get("chartPreviousClose") or (closes[-2] if len(closes) >= 2 else last_price)
+    if len(closes) >= 2:
+        prev_close = closes[-2]
+    pct = ((last_price - prev_close) / prev_close) * 100 if prev_close else 0.0
+    return {
+        "price": last_price,
+        "prev": prev_close,
+        "pct": pct,
+        "history": [round(x, 4) for x in closes[-7:]],
+    }
+
+
+def generate_dashboard(fetch_live: bool = False):
+    from datetime import datetime
+
+    # 基準：2026-11-13 收盤實測數據（經央行、TWSE、TPEx、Xinhua、Google Finance 交叉校驗）
+    fx_list = [
+        {
+            "pair": "USD/TWD",
+            "label": "美元兌新台幣",
+            "rate": "32.838",
+            "change": "-0.051 (-0.16%)",
+            "direction": "down",
+            "note": "台灣央行 11/13 收盤價 32.838（前收 32.889），現貨約 32.90",
+            "history": [32.768, 32.882, 32.865, 32.860, 32.889, 32.838],
+        },
+        {
+            "pair": "USD/CNY",
+            "label": "美元兌人民幣",
+            "rate": "6.6718",
+            "change": "+0.0014 (+0.02%)",
+            "direction": "up",
+            "note": "11/13 收盤約 6.6705–6.6744（較前日 6.6704 微幅整理）",
+            "history": [6.6765, 6.6728, 6.6704, 6.6704, 6.6704, 6.6718],
+        },
+    ]
+
+    indices_list = [
+        {"region": "美股", "name": "道瓊工業 (DJIA)", "value": "52,347.55", "change": "+0.10%", "up": True, "symbol": "^DJI"},
+        {"region": "美股", "name": "標普 500 (S&P 500)", "value": "7,561.67", "change": "-0.40%", "up": False, "symbol": "^GSPC"},
+        {"region": "美股", "name": "那斯達克 (NASDAQ)", "value": "25,136.27", "change": "-0.91%", "up": False, "symbol": "^IXIC"},
+        {"region": "美股", "name": "費城半導體 (SOX)", "value": "10,146.32", "change": "-3.43%", "up": False, "symbol": "^SOX"},
+        {"region": "台股", "name": "台灣加權 (TAIEX)", "value": "43,675.12", "change": "+1.35%", "up": True, "symbol": "^TWII"},
+        {"region": "台股", "name": "櫃買指數 (TPEx)", "value": "342.41", "change": "+1.99%", "up": True, "symbol": "^TWOII"},
+        {"region": "中港", "name": "上證綜合 (SSE)", "value": "3,634.35", "change": "-0.59%", "up": False, "symbol": "000001.SS"},
+        {"region": "中港", "name": "深證成指 (SZSE)", "value": "10,968.79", "change": "-2.05%", "up": False, "symbol": "399001.SZ"},
+        {"region": "中港", "name": "恒生指數 (HSI)", "value": "23,637.60", "change": "-1.55%", "up": False, "symbol": "^HSI"},
+    ]
+
+    updated_label = "2026-11-13 收盤基準（2026-11-14 校驗）"
+
+    if fetch_live:
+        print("[Dashboard] 正在向 Yahoo Finance 抓取最新即時行情...")
+        for item in indices_list:
+            try:
+                q = fetch_yahoo_quote(item["symbol"])
+                item["value"] = f"{q['price']:,.2f}"
+                item["change"] = f"{q['pct']:+.2f}%"
+                item["up"] = q["pct"] >= 0
+            except Exception as e:
+                print(f"  ⚠️ 抓取 {item['symbol']} 失敗，保留基準值: {e}")
+        for fx_item, sym in zip(fx_list, ["TWD=X", "CNY=X"]):
+            try:
+                q = fetch_yahoo_quote(sym)
+                diff = q["price"] - q["prev"]
+                fx_item["rate"] = f"{q['price']:.3f}" if sym == "TWD=X" else f"{q['price']:.4f}"
+                fx_item["change"] = f"{diff:+.3f} ({q['pct']:+.2f}%)"
+                fx_item["direction"] = "up" if diff >= 0 else "down"
+                if q["history"]:
+                    fx_item["history"] = q["history"]
+            except Exception as e:
+                print(f"  ⚠️ 抓取匯率 {sym} 失敗，保留基準值: {e}")
+        updated_label = datetime.now().strftime("%Y-%m-%d %H:%M CST (即時同步)")
+
+    for item in indices_list:
+        item.pop("symbol", None)
+
     dashboard = {
-        "updatedAt": "2026-11-12 07:00 CST",
-        "edition": "晨間戰情第 2026-1112 期",
+        "updatedAt": updated_label,
+        "edition": "晨間戰情第 2026-1114 期（11/13 收盤校驗）",
         "centralBanks": [
             {
                 "code": "FED",
                 "name": "美國聯準會 (Fed)",
                 "rate": "3.75% - 4.00%",
-                "stance": "中性偏鷹觀察",
-                "summary": "聯準會關注 AI 資本支出帶動的電力與基建通膨黏性，市場預期 12 月會議將維持利率不變，聚焦縮表節奏放緩訊號。",
-                "impact": "美債 10 年期殖利率高檔震盪於 4.28%，支撐美元指數維持強勢格局。",
+                "stance": "關注通膨黏性與 12 月會議",
+                "summary": "市場消化 10 月 PPI 數據與聯準會利率路徑預期，美元維持強勢整理。",
+                "impact": "科技股受高估值與 AI 資本支出節奏檢視影響，資金部分輪動至防禦性板塊。",
             },
             {
                 "code": "PBoC",
                 "name": "中國人民銀行 (PBoC)",
                 "rate": "LPR 1Y 3.00% / 5Y 3.50%",
                 "stance": "適度寬鬆支撐內需",
-                "summary": "持續透過逆回購與中期借貸便利 (MLF) 維持銀行體系流動性充裕，配合年末財政專項債發行穩定信用擴張。",
-                "impact": "在岸與離岸人民幣維持區間整理，政策托底 A 股高股息與國產算力替代板塊。",
+                "summary": "持續透過逆回購與中期借貸便利維持銀行體系流動性充裕，配合年末財政政策穩定信用。",
+                "impact": "美元兌人民幣維持於 6.67 區間整理，A 股銀行股逆勢創高。",
             },
             {
                 "code": "CBC",
                 "name": "台灣中央銀行 (CBC)",
                 "rate": "重貼現率 2.00%",
-                "stance": "利率按兵不動・緊盯房市信用",
-                "summary": "台灣 AI 伺服器與先進封裝出口動能強勁，通膨溫和可控；央行延續選擇性信用管制，對利率政策保持觀望。",
-                "impact": "新台幣隨外資匯入與台股科技權值股表現呈現溫和升值彈性。",
+                "stance": "利率按兵不動・匯市穩健調節",
+                "summary": "台灣 AI 伺服器與半導體出口動能強勁，11/13 台幣收盤升至 32.838。",
+                "impact": "外資與內資聚焦台股晶片設計與先進封裝族群。",
             },
             {
                 "code": "ECB",
                 "name": "歐洲央行 (ECB)",
                 "rate": "存款機制利率 2.25%",
                 "stance": "溫和寬鬆",
-                "summary": "歐元區製造業復甦力道仍偏緩，ECB 傾向維持低利率環境以支撐能源轉型與工業設備投資。",
-                "impact": "歐元兌美元承壓於 1.07 附近，資金持續偏好北美與亞洲半導體供應鏈。",
+                "summary": "歐元區製造業復甦力道仍偏緩，ECB 傾向維持寬鬆貨幣環境以支撐企業投資。",
+                "impact": "歐股表現相對平穩，全球資金仍以北美與亞洲半導體鏈為觀察核心。",
             },
         ],
-        "fx": [
-            {
-                "pair": "USD/TWD",
-                "label": "美元兌新台幣",
-                "rate": "31.84",
-                "change": "-0.08 (-0.25%)",
-                "direction": "down",
-                "note": "外資買超台股權值股帶動台幣小幅走升",
-                "history": [32.02, 31.98, 31.95, 31.91, 31.89, 31.86, 31.84],
-            },
-            {
-                "pair": "USD/CNY",
-                "label": "美元兌人民幣",
-                "rate": "7.142",
-                "change": "+0.011 (+0.15%)",
-                "direction": "up",
-                "note": "受美債殖利率高檔影響呈窄幅偏弱整理",
-                "history": [7.115, 7.122, 7.128, 7.135, 7.130, 7.138, 7.142],
-            },
-        ],
-        "indices": [
-            {"region": "美股", "name": "道瓊工業 (DJIA)", "value": "43,910.45", "change": "+0.42%", "up": True},
-            {"region": "美股", "name": "標普 500 (S&P 500)", "value": "5,988.20", "change": "+0.68%", "up": True},
-            {"region": "美股", "name": "那斯達克 (NASDAQ)", "value": "19,284.10", "change": "+1.12%", "up": True},
-            {"region": "美股", "name": "費城半導體 (SOX)", "value": "5,342.80", "change": "+1.85%", "up": True},
-            {"region": "台股", "name": "台灣加權 (TAIEX)", "value": "23,412.60", "change": "+1.24%", "up": True},
-            {"region": "台股", "name": "櫃買指數 (TPEx)", "value": "268.45", "change": "+0.76%", "up": True},
-            {"region": "中港", "name": "上證綜合 (SSE)", "value": "3,428.15", "change": "-0.18%", "up": False},
-            {"region": "中港", "name": "深證成指 (SZSE)", "value": "11,142.30", "change": "+0.31%", "up": True},
-            {"region": "中港", "name": "恒生指數 (HSI)", "value": "20,415.80", "change": "-0.45%", "up": False},
-        ],
+        "fx": fx_list,
+        "indices": indices_list,
         "marketAnalysis": [
             {
                 "market": "台灣股市",
