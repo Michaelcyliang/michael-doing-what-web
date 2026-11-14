@@ -3,7 +3,7 @@
   "articles": [
     {
       "id": "ai-supply-chain-v5-synthesis",
-      "category": "財經研析",
+      "category": "財經",
       "title": "AI 產業鏈研究報告 v5：由消費者向上游推導的七層架構與硬體瓶頸",
       "date": "2026-11-02",
       "readTime": "12 分鐘",
@@ -48,6 +48,22 @@
       ],
       "file": "/content/learning/articles/ai-learning-synthesis.md",
       "content": "# 實體 AI 與戰略藍圖：GTC 2026 Berlin 與 Sam Altman 史丹佛訪談重點\n\n> 整理自 `Data_Pipeline/Learning/AI 學習/` 8 份研究報告\n\n## 一、GTC 2026 Berlin：點亮實體 AI (Physical AI) 晨曦\n\n* **從數位生成走向物理世界**：NVIDIA 透過 Omniverse 與 Isaac 模擬平台（搭配 HALO 合成資料生成管線），解決人形機器人與工業自動化「真實物理互動數據稀缺」的瓶頸。\n* **三層非同步控制架構**：高層多模態視覺語言推論 (VLM)、中層運動規劃與低層高頻即時控制分離，使邊緣端記憶體頻寬與低延遲通訊成為機器人 BOM 的關鍵成本中心。\n* **AI 賦能 IE 4.0 與 IIoT**：在製造現場中，結合視覺檢測、設備預測性維護與數位孿生 (Digital Twin)，將工業工程從被動統計推向即時閉環最佳化。\n\n## 二、Sam Altman 史丹佛 CS183 / GSB 戰略藍圖\n\n1. **算力即新型基礎設施**：模型能力的擴展曲線仍受計算規模與高品質推理資料驅動，能源供給與晶片製造將成為科技巨頭長期競爭的核心護城河。\n2. **AI 時代的經濟韌性**：當推理邊際成本持續下降、Agent 工具普及，個人開發者與小型團隊的生產力槓桿將放大數十倍；企業組織正從層級管理轉向「高密度小團隊 + AI 代理協作」。\n3. **28 位費爾茲得主與數學革命**：AI 在形式化驗證 (Formal Verification) 與高階數學猜想證明上的突破，正反過來加速演算法與晶片架構設計的自動化迭代。\n"
+    },
+    {
+      "id": "humanoid-robotics-supply-chain",
+      "category": "人形機器人供應鏈拆解",
+      "title": "人形機器人供應鏈拆解與 Apple HALO 實體 AI 模擬管線全解析",
+      "date": "2026-11-11",
+      "readTime": "10 分鐘",
+      "summary": "整理宇樹等中美機器人量產路線、靈巧手微鏡頭與視觸覺感測器、非同步三層控制架構與台廠精密傳動／光學切入機會。",
+      "tags": [
+        "人形機器人",
+        "HALO",
+        "靈巧手",
+        "NVIDIA Isaac"
+      ],
+      "file": "/content/learning/articles/humanoid-robotics.md",
+      "content": "# 人形機器人供應鏈拆解與 Apple HALO 實體 AI 模擬管線全解析\n\n> 整理自 `Data_Pipeline/Learning/人形機器人供應鏈拆解/` 研究報告（2026-11-10 / 2026-11-11）\n\n## 一、實體 AI 資料瓶頸與 HALO 模擬管線\n\n* **真實物理互動數據稀缺**：人形機器人無法像純文字大模型直接從網際網路抓取語料，必須依賴高擬真物理模擬環境產生訓練軌跡。\n* **HALO 合成資料生成管線**：結合幾何建模、物理碰撞與多模態視覺語言推論，將人類示範動作擴增為大量可泛化的機器人操作策略。\n* **非同步三層控制架構**：高層 VLM 語意理解、中層運動軌跡規劃與低層高頻閉環控制解耦，對邊緣端記憶體頻寬提出更高要求。\n\n## 二、靈巧手與雙目視覺台廠供應鏈切入點\n\n1. **視覺與微光學模組**：雙目視覺與指尖微鏡頭考驗超小型光學鏡片良率與耐衝擊封裝，台灣光學大廠具備精密模造護城河。\n2. **視觸覺感測器 (Visuotactile)**：結合彈性體形變與微型相機的光學觸覺方案，正成為靈巧手精細抓取的主流演進方向。\n3. **精密機械傳動**：行星滾柱絲槓、諧波減速機與空心杯馬達佔據人形機器人 BOM 成本最大宗，量產降本與壽命驗證是中美供應鏈競爭核心。\n"
     }
   ],
   "pdfGroups": [
@@ -59,6 +75,7 @@
           "id": "ai-learning-01",
           "title": "AI 時代經濟不確定性與韌性政策_20261028",
           "filename": "AI 時代經濟不確定性與韌性政策_20261028.pdf",
+          "fileType": "PDF",
           "sizeMB": 0.47,
           "url": "/content/learning/pdfs/ai-learning/01_AI__20261028.pdf"
         },
@@ -66,6 +83,7 @@
           "id": "ai-learning-02",
           "title": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊",
           "filename": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊.pdf",
+          "fileType": "PDF",
           "sizeMB": 0.45,
           "url": "/content/learning/pdfs/ai-learning/02_AI_28.pdf"
         },
@@ -73,6 +91,7 @@
           "id": "ai-learning-03",
           "title": "AI 賦能 IE 4.0 : IIoT 方法論",
           "filename": "AI 賦能 IE 4.0 : IIoT 方法論.pdf",
+          "fileType": "PDF",
           "sizeMB": 3.61,
           "url": "/content/learning/pdfs/ai-learning/03_AI_IE_4_0_IIoT.pdf"
         },
@@ -80,6 +99,7 @@
           "id": "ai-learning-04",
           "title": "GTC2026_Berlin_Keynote_Analysis",
           "filename": "GTC2026_Berlin_Keynote_Analysis.pdf",
+          "fileType": "PDF",
           "sizeMB": 0.26,
           "url": "/content/learning/pdfs/ai-learning/04_GTC2026_Berlin_Keynote_Analysis.pdf"
         },
@@ -87,6 +107,7 @@
           "id": "ai-learning-05",
           "title": "Sam Altman Stanford GSB Briefing_2 026 Oct",
           "filename": "Sam Altman Stanford GSB Briefing_2 026 Oct.pdf",
+          "fileType": "PDF",
           "sizeMB": 11.53,
           "url": "/content/learning/pdfs/ai-learning/05_Sam_Altman_Stanford_GSB_Briefing_2_026_Oct.pdf"
         },
@@ -94,6 +115,7 @@
           "id": "ai-learning-06",
           "title": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談",
           "filename": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談.pdf",
+          "fileType": "PDF",
           "sizeMB": 13.8,
           "url": "/content/learning/pdfs/ai-learning/06_Sam_Altman_AI___CS183.pdf"
         },
@@ -101,6 +123,7 @@
           "id": "ai-learning-07",
           "title": "nvidia-gtc-berlin-2026-keynote-deck",
           "filename": "nvidia-gtc-berlin-2026-keynote-deck.pdf",
+          "fileType": "PDF",
           "sizeMB": 11.24,
           "url": "/content/learning/pdfs/ai-learning/07_nvidia-gtc-berlin-2026-keynote-deck.pdf"
         },
@@ -108,8 +131,61 @@
           "id": "ai-learning-08",
           "title": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦",
           "filename": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦.pdf",
+          "fileType": "PDF",
           "sizeMB": 17.93,
           "url": "/content/learning/pdfs/ai-learning/08_GTC_2026_Berlin_AI.pdf"
+        }
+      ]
+    },
+    {
+      "topic": "人形機器人供應鏈拆解",
+      "slug": "humanoid-robotics",
+      "items": [
+        {
+          "id": "humanoid-robotics-01",
+          "title": "Apple HALO 實體 AI 全解析_Michael 20261110",
+          "filename": "Apple HALO 實體 AI 全解析_Michael 20261110.pdf",
+          "fileType": "PDF",
+          "sizeMB": 26.17,
+          "url": "/content/learning/pdfs/humanoid-robotics/01_Apple_HALO_AI__Michael_20261110.pdf"
+        },
+        {
+          "id": "humanoid-robotics-02",
+          "title": "人形機器人供應鏈研析_Michael 20261111",
+          "filename": "人形機器人供應鏈研析_Michael 20261111.pdf",
+          "fileType": "PDF",
+          "sizeMB": 11.94,
+          "url": "/content/learning/pdfs/humanoid-robotics/02_Michael_20261111.pdf"
+        }
+      ]
+    },
+    {
+      "topic": "財經",
+      "slug": "finance",
+      "items": [
+        {
+          "id": "finance-01",
+          "title": "2026三重通膨衝擊應對策略",
+          "filename": "2026三重通膨衝擊應對策略.pdf",
+          "fileType": "PDF",
+          "sizeMB": 18.08,
+          "url": "/content/learning/pdfs/finance/01_2026.pdf"
+        },
+        {
+          "id": "finance-02",
+          "title": "Q3-26-PS-Inc-Letter-to-Shareholders",
+          "filename": "Q3-26-PS-Inc-Letter-to-Shareholders.pdf",
+          "fileType": "PDF",
+          "sizeMB": 1.39,
+          "url": "/content/learning/pdfs/finance/02_Q3-26-PS-Inc-Letter-to-Shareholders.pdf"
+        },
+        {
+          "id": "finance-03",
+          "title": "全球財經觀測",
+          "filename": "全球財經觀測.jpeg",
+          "fileType": "JPEG",
+          "sizeMB": 0.87,
+          "url": "/content/learning/pdfs/finance/03_item_03.jpeg"
         }
       ]
     },
@@ -121,6 +197,7 @@
           "id": "game-theory-01",
           "title": "10. 賽局理論與隨機化戰略",
           "filename": "10. 賽局理論與隨機化戰略.pdf",
+          "fileType": "PDF",
           "sizeMB": 12.36,
           "url": "/content/learning/pdfs/game-theory/01_10.pdf"
         },
@@ -128,6 +205,7 @@
           "id": "game-theory-02",
           "title": "2. 高階商業賽局戰略",
           "filename": "2. 高階商業賽局戰略.pdf",
+          "fileType": "PDF",
           "sizeMB": 9.97,
           "url": "/content/learning/pdfs/game-theory/02_2.pdf"
         },
@@ -135,6 +213,7 @@
           "id": "game-theory-03",
           "title": "3. 賽局戰略與空間競爭",
           "filename": "3. 賽局戰略與空間競爭.pdf",
+          "fileType": "PDF",
           "sizeMB": 11.01,
           "url": "/content/learning/pdfs/game-theory/03_3.pdf"
         },
@@ -142,6 +221,7 @@
           "id": "game-theory-04",
           "title": "4. 最佳回應戰略藍圖",
           "filename": "4. 最佳回應戰略藍圖.pdf",
+          "fileType": "PDF",
           "sizeMB": 9.85,
           "url": "/content/learning/pdfs/game-theory/04_4.pdf"
         },
@@ -149,6 +229,7 @@
           "id": "game-theory-05",
           "title": "5. 納許均衡與戰略協調",
           "filename": "5. 納許均衡與戰略協調.pdf",
+          "fileType": "PDF",
           "sizeMB": 9.82,
           "url": "/content/learning/pdfs/game-theory/05_5.pdf"
         },
@@ -156,6 +237,7 @@
           "id": "game-theory-06",
           "title": "6. The_Strategist_s_Blueprint",
           "filename": "6. The_Strategist_s_Blueprint.pdf",
+          "fileType": "PDF",
           "sizeMB": 11.01,
           "url": "/content/learning/pdfs/game-theory/06_6_The_Strategist_s_Blueprint.pdf"
         },
@@ -163,6 +245,7 @@
           "id": "game-theory-07",
           "title": "7. 高階賽局策略實戰",
           "filename": "7. 高階賽局策略實戰.pdf",
+          "fileType": "PDF",
           "sizeMB": 9.43,
           "url": "/content/learning/pdfs/game-theory/07_7.pdf"
         },
@@ -170,6 +253,7 @@
           "id": "game-theory-08",
           "title": "8. 高階賽局戰略與機制設計",
           "filename": "8. 高階賽局戰略與機制設計.pdf",
+          "fileType": "PDF",
           "sizeMB": 10.65,
           "url": "/content/learning/pdfs/game-theory/08_8.pdf"
         },
@@ -177,6 +261,7 @@
           "id": "game-theory-09",
           "title": "9. 高階賽局與混合策略",
           "filename": "9. 高階賽局與混合策略.pdf",
+          "fileType": "PDF",
           "sizeMB": 10.84,
           "url": "/content/learning/pdfs/game-theory/09_9.pdf"
         }

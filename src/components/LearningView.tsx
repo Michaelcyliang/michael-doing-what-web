@@ -70,7 +70,16 @@ export default function LearningView({
     return items;
   }, [activeArticle]);
 
-  const categories = ['all', '財經研析', '賽局理論', 'AI 學習', 'pdfs'];
+  const totalFiles = useMemo(
+    () => data.pdfGroups.reduce((acc, g) => acc + g.items.length, 0),
+    [data.pdfGroups]
+  );
+
+  const categories = [
+    'all',
+    ...data.pdfGroups.map((g) => g.topic),
+    'pdfs',
+  ];
 
   return (
     <div className="space-y-6">
@@ -81,7 +90,7 @@ export default function LearningView({
             學習報告 (Learning Reports)
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            靜態知識庫：Markdown 深度研析筆記與 Data_Pipeline 原始 PDF 歸檔
+            靜態知識庫：Markdown 深度研析筆記與 Data_Pipeline/Learning 4 大分類原始檔案歸檔
           </p>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -91,7 +100,7 @@ export default function LearningView({
               cat === 'all'
                 ? '全部筆記'
                 : cat === 'pdfs'
-                ? 'PDF 原始檔庫 (17)'
+                ? `原始檔案庫 (${totalFiles})`
                 : cat;
             return (
               <button
@@ -111,7 +120,7 @@ export default function LearningView({
         </div>
       </div>
 
-      {/* PDF Repository View */}
+      {/* Repository View */}
       {activeSubSection === 'pdfs' ? (
         <div className="space-y-5">
           {data.pdfGroups.map((group) => (
@@ -125,7 +134,7 @@ export default function LearningView({
                   {group.topic}
                 </h2>
                 <span className="text-xs text-slate-400">
-                  共 {group.items.length} 份報告
+                  共 {group.items.length} 份檔案
                 </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
@@ -142,7 +151,7 @@ export default function LearningView({
                         {pdf.title}
                       </div>
                       <div className="text-[11px] font-mono text-slate-400 mt-0.5">
-                        PDF · {pdf.sizeMB} MB
+                        {((pdf as { fileType?: string }).fileType || 'PDF')} · {pdf.sizeMB} MB
                       </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-sky-500 shrink-0" />
@@ -292,7 +301,7 @@ export default function LearningView({
             </div>
           )}
 
-          {/* Table of Contents & Related PDFs */}
+          {/* Table of Contents & Related Files */}
           <div className="xl:col-span-3 space-y-4">
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 shadow-sm sticky top-20">
               <div className="text-xs font-semibold flex items-center gap-1.5 text-slate-900 dark:text-white mb-3">
@@ -320,7 +329,7 @@ export default function LearningView({
                   className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-medium text-slate-700 dark:text-slate-200 transition-colors"
                 >
                   <BookOpen className="w-3.5 h-3.5 text-rose-500" />
-                  瀏覽全部 17 份 PDF 原始報告
+                  瀏覽全部 {totalFiles} 份原始報告與圖表
                 </button>
               </div>
             </div>

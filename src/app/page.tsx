@@ -117,14 +117,20 @@ export default function HomePage() {
           { id: 'watchlist', label: 'Michael 自選股報價' },
           { id: 'devlogs', label: '遊戲與開發日誌' },
         ];
-      case 'learning':
+      case 'learning': {
+        const totalLearningFiles = (learning?.pdfGroups || []).reduce(
+          (acc, g) => acc + g.items.length,
+          0
+        );
         return [
           { id: 'all', label: '全部學習筆記' },
-          { id: '財經研析', label: '財經研析' },
-          { id: '賽局理論', label: '賽局理論' },
-          { id: 'AI 學習', label: 'AI 學習' },
-          { id: 'pdfs', label: 'PDF 原始研報庫 (17)' },
+          ...(learning?.pdfGroups || []).map((g) => ({
+            id: g.topic,
+            label: `${g.topic} (${g.items.length})`,
+          })),
+          { id: 'pdfs', label: `原始檔案庫 (${totalLearningFiles})` },
         ];
+      }
       case 'travel':
         return (outings?.albums || []).map((a) => ({
           id: a.id,

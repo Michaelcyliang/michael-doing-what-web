@@ -66,6 +66,8 @@ OUTINGS_META = {
 
 TOPIC_SLUGS = {
     "AI 學習": "ai-learning",
+    "人形機器人供應鏈拆解": "humanoid-robotics",
+    "財經": "finance",
     "賽局理論": "game-theory",
 }
 
@@ -165,7 +167,9 @@ def sync_learning():
                 [
                     f
                     for f in topic_dir.iterdir()
-                    if f.is_file() and not f.name.startswith(".") and f.suffix.lower() == ".pdf"
+                    if f.is_file()
+                    and not f.name.startswith(".")
+                    and f.suffix.lower() in {".pdf", ".jpeg", ".jpg", ".png", ".webp"}
                 ]
             )
             for idx, f in enumerate(files, start=1):
@@ -177,6 +181,7 @@ def sync_learning():
                         "id": f"{slug}-{idx:02d}",
                         "title": f.stem,
                         "filename": f.name,
+                        "fileType": f.suffix.lstrip(".").upper(),
                         "sizeMB": size_mb,
                         "url": f"/content/learning/pdfs/{slug}/{new_name}",
                     }
@@ -187,7 +192,7 @@ def sync_learning():
     articles = [
         {
             "id": "ai-supply-chain-v5-synthesis",
-            "category": "財經研析",
+            "category": "財經",
             "title": "AI 產業鏈研究報告 v5：由消費者向上游推導的七層架構與硬體瓶頸",
             "date": "2026-11-02",
             "readTime": "12 分鐘",
@@ -288,6 +293,32 @@ def sync_learning():
 1. **算力即新型基礎設施**：模型能力的擴展曲線仍受計算規模與高品質推理資料驅動，能源供給與晶片製造將成為科技巨頭長期競爭的核心護城河。
 2. **AI 時代的經濟韌性**：當推理邊際成本持續下降、Agent 工具普及，個人開發者與小型團隊的生產力槓桿將放大數十倍；企業組織正從層級管理轉向「高密度小團隊 + AI 代理協作」。
 3. **28 位費爾茲得主與數學革命**：AI 在形式化驗證 (Formal Verification) 與高階數學猜想證明上的突破，正反過來加速演算法與晶片架構設計的自動化迭代。
+""",
+        },
+        {
+            "id": "humanoid-robotics-supply-chain",
+            "category": "人形機器人供應鏈拆解",
+            "title": "人形機器人供應鏈拆解與 Apple HALO 實體 AI 模擬管線全解析",
+            "date": "2026-11-11",
+            "readTime": "10 分鐘",
+            "summary": "整理宇樹等中美機器人量產路線、靈巧手微鏡頭與視觸覺感測器、非同步三層控制架構與台廠精密傳動／光學切入機會。",
+            "tags": ["人形機器人", "HALO", "靈巧手", "NVIDIA Isaac"],
+            "file": "/content/learning/articles/humanoid-robotics.md",
+            "content": """# 人形機器人供應鏈拆解與 Apple HALO 實體 AI 模擬管線全解析
+
+> 整理自 `Data_Pipeline/Learning/人形機器人供應鏈拆解/` 研究報告（2026-11-10 / 2026-11-11）
+
+## 一、實體 AI 資料瓶頸與 HALO 模擬管線
+
+* **真實物理互動數據稀缺**：人形機器人無法像純文字大模型直接從網際網路抓取語料，必須依賴高擬真物理模擬環境產生訓練軌跡。
+* **HALO 合成資料生成管線**：結合幾何建模、物理碰撞與多模態視覺語言推論，將人類示範動作擴增為大量可泛化的機器人操作策略。
+* **非同步三層控制架構**：高層 VLM 語意理解、中層運動軌跡規劃與低層高頻閉環控制解耦，對邊緣端記憶體頻寬提出更高要求。
+
+## 二、靈巧手與雙目視覺台廠供應鏈切入點
+
+1. **視覺與微光學模組**：雙目視覺與指尖微鏡頭考驗超小型光學鏡片良率與耐衝擊封裝，台灣光學大廠具備精密模造護城河。
+2. **視觸覺感測器 (Visuotactile)**：結合彈性體形變與微型相機的光學觸覺方案，正成為靈巧手精細抓取的主流演進方向。
+3. **精密機械傳動**：行星滾柱絲槓、諧波減速機與空心杯馬達佔據人形機器人 BOM 成本最大宗，量產降本與壽命驗證是中美供應鏈競爭核心。
 """,
         },
     ]
