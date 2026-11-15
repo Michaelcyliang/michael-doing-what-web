@@ -1,6 +1,21 @@
 export type ModuleId = 'war-room' | 'projects' | 'learning' | 'travel';
 
-export interface CentralBank {
+export interface VerificationSummary {
+  totalChecked: number;
+  passed: number;
+  warnings: string[];
+  verifiedAt: string;
+  pipeline: string;
+}
+
+export interface DataMeta {
+  source?: string;
+  sourceUrl?: string;
+  asOfDate?: string;
+  verified?: boolean;
+}
+
+export interface CentralBank extends DataMeta {
   code: string;
   name: string;
   rate: string;
@@ -9,7 +24,7 @@ export interface CentralBank {
   impact: string;
 }
 
-export interface FxRate {
+export interface FxRate extends DataMeta {
   pair: string;
   label: string;
   rate: string;
@@ -19,7 +34,7 @@ export interface FxRate {
   history: number[];
 }
 
-export interface MarketIndex {
+export interface MarketIndex extends DataMeta {
   region: string;
   name: string;
   value: string;
@@ -44,6 +59,7 @@ export interface AiUpdate {
 export interface DashboardData {
   updatedAt: string;
   edition: string;
+  verification?: VerificationSummary;
   centralBanks: CentralBank[];
   fx: FxRate[];
   indices: MarketIndex[];
@@ -60,7 +76,7 @@ export interface SupplyChainNode {
   children?: SupplyChainNode[];
 }
 
-export interface WatchlistStock {
+export interface WatchlistStock extends DataMeta {
   ticker: string;
   name: string;
   sector: string;
@@ -83,6 +99,7 @@ export interface DevLog {
 
 export interface ProjectsData {
   updatedAt: string;
+  verification?: VerificationSummary;
   aiSupplyChain: SupplyChainNode;
   watchlist: WatchlistStock[];
   devLogs: DevLog[];
@@ -104,6 +121,7 @@ export interface PdfItem {
   id: string;
   title: string;
   filename: string;
+  fileType?: string;
   sizeMB: number;
   url: string;
 }

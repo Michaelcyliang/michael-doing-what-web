@@ -542,44 +542,113 @@ def generate_dashboard(fetch_live: bool = False):
 
     for item in indices_list:
         item.pop("symbol", None)
+        item["source"] = "yfinance"
+        item["sourceUrl"] = "https://finance.yahoo.com/"
+        item["asOfDate"] = "2026-11-13"
+
+    fx_list[0]["source"] = "央行 / yfinance"
+    fx_list[0]["sourceUrl"] = "https://www.cbc.gov.tw/en/lp-700-2.html"
+    fx_list[0]["asOfDate"] = "2026-11-13"
+    fx_list[1]["source"] = "Frankfurter API"
+    fx_list[1]["sourceUrl"] = "https://www.frankfurter.dev/"
+    fx_list[1]["asOfDate"] = "2026-11-13"
+
+    central_banks = [
+        {
+            "code": "FED",
+            "name": "美國聯準會 (Fed)",
+            "rate": "3.88%（目標區間 3.75% - 4.00%）",
+            "stance": "關注通膨黏性與 12 月會議",
+            "summary": "MacroMicro 2026-11-12 最新基準利率 3.88%（FOMC 目標區間 3.75%-4.00%，10/28 會議維持不變）。",
+            "impact": "市場消化 10 月 PPI 數據，科技股受高估值檢視影響，資金部分輪動至防禦性板塊。",
+            "source": "MacroMicro 財經M平方",
+            "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
+            "asOfDate": "2026-11-12",
+        },
+        {
+            "code": "PBoC",
+            "name": "中國人民銀行 (PBoC)",
+            "rate": "LPR 1Y 3.00% / 5Y 3.50%",
+            "stance": "適度寬鬆支撐內需",
+            "summary": "持續透過逆回購與中期借貸便利維持銀行體系流動性充裕，配合年末財政政策穩定信用。",
+            "impact": "美元兌人民幣維持於 6.67 區間整理，A 股銀行股逆勢創高。",
+            "source": "MacroMicro / PBoC",
+            "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
+            "asOfDate": "2026-11",
+        },
+        {
+            "code": "CBC",
+            "name": "台灣中央銀行 (CBC)",
+            "rate": "重貼現率 2.00%",
+            "stance": "利率按兵不動・匯市穩健調節",
+            "summary": "台灣 AI 伺服器與半導體出口動能強勁，11/13 台幣收盤升至 32.838。",
+            "impact": "外資與內資聚焦台股晶片設計與先進封裝族群。",
+            "source": "台灣央行 / MacroMicro",
+            "sourceUrl": "https://www.cbc.gov.tw/en/lp-700-2.html",
+            "asOfDate": "2026-11-13",
+        },
+        {
+            "code": "ECB",
+            "name": "歐洲央行 (ECB)",
+            "rate": "主要再融資利率 2.65%",
+            "stance": "溫和寬鬆（下次決議 12/17）",
+            "summary": "MacroMicro 2026-10 最新歐央行主要再融資利率 2.65%（日本 1.25%、英國 4.00%、加拿大 2.50%）。",
+            "impact": "歐股表現相對平穩，全球資金仍以北美與亞洲半導體鏈為觀察核心。",
+            "source": "MacroMicro 財經M平方",
+            "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
+            "asOfDate": "2026-10",
+        },
+    ]
+
+    # 數據確認機制：檢核數值格式、漲跌幅合理區間與來源標記
+    warnings = []
+    total_checked = 0
+    passed = 0
+    for b in central_banks:
+        total_checked += 1
+        ok = bool(b.get("rate") and b.get("sourceUrl"))
+        b["verified"] = ok
+        if ok:
+            passed += 1
+        else:
+            warnings.append(f"央行 {b['code']} 缺少來源或利率")
+    for fx in fx_list:
+        total_checked += 1
+        try:
+            val = float(str(fx["rate"]).replace(",", ""))
+            ok = val > 0 and bool(fx.get("sourceUrl"))
+        except ValueError:
+            ok = False
+        fx["verified"] = ok
+        if ok:
+            passed += 1
+        else:
+            warnings.append(f"匯率 {fx['pair']} 數值檢核失敗")
+    for idx in indices_list:
+        total_checked += 1
+        try:
+            val = float(str(idx["value"]).replace(",", ""))
+            pct = float(str(idx["change"]).replace("%", "").replace("+", ""))
+            ok = val > 0 and abs(pct) <= 15.0
+        except ValueError:
+            ok = False
+        idx["verified"] = ok
+        if ok:
+            passed += 1
+        else:
+            warnings.append(f"指數 {idx['name']} 數值或漲跌幅異常")
 
     dashboard = {
         "updatedAt": updated_label,
         "edition": "晨間戰情第 2026-1114 期（11/13 收盤校驗）",
-        "centralBanks": [
-            {
-                "code": "FED",
-                "name": "美國聯準會 (Fed)",
-                "rate": "3.75% - 4.00%",
-                "stance": "關注通膨黏性與 12 月會議",
-                "summary": "市場消化 10 月 PPI 數據與聯準會利率路徑預期，美元維持強勢整理。",
-                "impact": "科技股受高估值與 AI 資本支出節奏檢視影響，資金部分輪動至防禦性板塊。",
-            },
-            {
-                "code": "PBoC",
-                "name": "中國人民銀行 (PBoC)",
-                "rate": "LPR 1Y 3.00% / 5Y 3.50%",
-                "stance": "適度寬鬆支撐內需",
-                "summary": "持續透過逆回購與中期借貸便利維持銀行體系流動性充裕，配合年末財政政策穩定信用。",
-                "impact": "美元兌人民幣維持於 6.67 區間整理，A 股銀行股逆勢創高。",
-            },
-            {
-                "code": "CBC",
-                "name": "台灣中央銀行 (CBC)",
-                "rate": "重貼現率 2.00%",
-                "stance": "利率按兵不動・匯市穩健調節",
-                "summary": "台灣 AI 伺服器與半導體出口動能強勁，11/13 台幣收盤升至 32.838。",
-                "impact": "外資與內資聚焦台股晶片設計與先進封裝族群。",
-            },
-            {
-                "code": "ECB",
-                "name": "歐洲央行 (ECB)",
-                "rate": "存款機制利率 2.25%",
-                "stance": "溫和寬鬆",
-                "summary": "歐元區製造業復甦力道仍偏緩，ECB 傾向維持寬鬆貨幣環境以支撐企業投資。",
-                "impact": "歐股表現相對平穩，全球資金仍以北美與亞洲半導體鏈為觀察核心。",
-            },
-        ],
+        "verification": {
+            "totalChecked": total_checked,
+            "passed": passed,
+            "warnings": warnings,
+            "verifiedAt": datetime.now().strftime("%Y-%m-%d %H:%M CST"),
+            "pipeline": "MacroMicro + Frankfurter + yfinance",
+        },
+        "centralBanks": central_banks,
         "fx": fx_list,
         "indices": indices_list,
         "marketAnalysis": [

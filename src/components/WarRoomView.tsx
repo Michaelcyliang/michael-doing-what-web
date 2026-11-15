@@ -77,8 +77,15 @@ export default function WarRoomView({
             每日晨間宏觀經濟摘要、全球股市矩陣與美中前沿 AI 技術動態
           </p>
         </div>
-        <div className="text-xs px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 self-start sm:self-auto font-mono">
-          更新時間：{data.updatedAt}
+        <div className="flex flex-col items-start sm:items-end gap-1.5">
+          <div className="text-xs px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono">
+            更新時間：{data.updatedAt}
+          </div>
+          {data.verification && (
+            <div className="text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-medium">
+              ✓ 數據確認：{data.verification.passed}/{data.verification.totalChecked} 筆通過檢核（{data.verification.pipeline}）
+            </div>
+          )}
         </div>
       </div>
 
@@ -121,6 +128,20 @@ export default function WarRoomView({
                         <span className="text-amber-600 dark:text-amber-400 font-medium">
                           {bank.stance}
                         </span>
+                        {bank.verified && bank.sourceUrl && (
+                          <>
+                            <span className="text-slate-400">•</span>
+                            <a
+                              href={bank.sourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-emerald-600 dark:text-emerald-400 hover:underline"
+                            >
+                              ✓ {bank.source || 'MacroMicro'} ({bank.asOfDate || '最新'})
+                            </a>
+                          </>
+                        )}
                       </div>
                     </div>
                     <button

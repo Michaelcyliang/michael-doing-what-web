@@ -41,6 +41,38 @@
       ]
     },
     {
+      "id": "album",
+      "location": "基隆海岸",
+      "region": "精選紀錄",
+      "date": "2026-11",
+      "summary": "基隆海岸 旅遊與生活攝影紀錄。",
+      "tags": [
+        "生活紀錄"
+      ],
+      "cover": "/images/outings/album/01_1.jpg",
+      "count": 3,
+      "photos": [
+        {
+          "id": "album-01",
+          "filename": "1.jpg",
+          "src": "/images/outings/album/01_1.jpg",
+          "caption": "基隆海岸 · 影像紀錄 #01"
+        },
+        {
+          "id": "album-02",
+          "filename": "2.jpg",
+          "src": "/images/outings/album/02_2.jpg",
+          "caption": "基隆海岸 · 影像紀錄 #02"
+        },
+        {
+          "id": "album-03",
+          "filename": "3.jpg",
+          "src": "/images/outings/album/03_3.jpg",
+          "caption": "基隆海岸 · 影像紀錄 #03"
+        }
+      ]
+    },
+    {
       "id": "sunrise-land",
       "location": "日出大地",
       "region": "台灣",

@@ -61,11 +61,12 @@ export default function HomePage() {
   useEffect(() => {
     async function loadAll() {
       try {
+        const bust = `?v=${Date.now()}`;
         const [dRes, pRes, lRes, oRes] = await Promise.all([
-          fetch(assetPath('/data/dashboard.json')),
-          fetch(assetPath('/data/projects.json')),
-          fetch(assetPath('/data/learning.json')),
-          fetch(assetPath('/data/outings.json')),
+          fetch(`${assetPath('/data/dashboard.json')}${bust}`, { cache: 'no-store' }),
+          fetch(`${assetPath('/data/projects.json')}${bust}`, { cache: 'no-store' }),
+          fetch(`${assetPath('/data/learning.json')}${bust}`, { cache: 'no-store' }),
+          fetch(`${assetPath('/data/outings.json')}${bust}`, { cache: 'no-store' }),
         ]);
         const [d, p, l, o] = await Promise.all([
           dRes.json(),
