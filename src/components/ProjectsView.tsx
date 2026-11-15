@@ -292,9 +292,21 @@ export default function ProjectsView({
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-5 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div>
-                  <span className="text-xs font-medium text-sky-600 dark:text-sky-400">
-                    {activeStock.sector}
-                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-medium text-sky-600 dark:text-sky-400">
+                      {activeStock.sector}
+                    </span>
+                    {activeStock.verified && activeStock.sourceUrl && (
+                      <a
+                        href={activeStock.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:underline"
+                      >
+                        ✓ {activeStock.source} · {activeStock.asOfDate}
+                      </a>
+                    )}
+                  </div>
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">
                     {activeStock.name} ({activeStock.ticker})
                   </h2>

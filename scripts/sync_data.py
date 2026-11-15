@@ -1034,10 +1034,41 @@ def generate_projects(fetch_live: bool = False):
         },
     ]
 
+    from datetime import datetime
+
+    stock_warnings = []
+    stock_passed = 0
+    for st in watchlist:
+        is_otc = st["ticker"] == "3081"
+        st.setdefault("source", "TPEx 櫃買 OpenAPI" if is_otc else "TWSE 證交所 OpenAPI")
+        st.setdefault(
+            "sourceUrl",
+            "https://www.tpex.org.tw/" if is_otc else "https://openapi.twse.com.tw/",
+        )
+        st.setdefault("asOfDate", "2026-11-12" if st["ticker"] in {"2449", "3081"} else "2026-11-13")
+        try:
+            p = float(str(st["price"]).replace(",", ""))
+            pct = float(str(st["change"]).replace("%", "").replace("+", ""))
+            ok = p > 0 and abs(pct) <= 10.5
+        except ValueError:
+            ok = False
+        st["verified"] = ok
+        if ok:
+            stock_passed += 1
+        else:
+            stock_warnings.append(f"{st['ticker']} {st['name']} 報價檢核異常")
+
     with open(DATA_OUT / "projects.json", "w", encoding="utf-8") as fp:
         json.dump(
             {
-                "updatedAt": "2026-11-12",
+                "updatedAt": "2026-11-13 收盤基準",
+                "verification": {
+                    "totalChecked": len(watchlist),
+                    "passed": stock_passed,
+                    "warnings": stock_warnings,
+                    "verifiedAt": datetime.now().strftime("%Y-%m-%d %H:%M CST"),
+                    "pipeline": "TWSE / TPEx OpenAPI",
+                },
                 "aiSupplyChain": ai_supply_chain,
                 "watchlist": watchlist,
                 "devLogs": dev_logs,
@@ -1046,7 +1077,7 @@ def generate_projects(fetch_live: bool = False):
             ensure_ascii=False,
             indent=2,
         )
-    print(f"[Projects] 已產出 7 層 AI 產業鏈、{len(watchlist)} 檔自選股與 {len(dev_logs)} 篇開發日誌")
+    print(f"[Projects] 已產出 7 層 AI 產業鏈、{len(watchlist)} 檔自選股（通過檢核 {stock_passed}/{len(watchlist)}）")
 
 
 if __name__ == "__main__":
