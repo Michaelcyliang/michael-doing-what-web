@@ -54,6 +54,16 @@ export interface AiUpdate {
   time: string;
   title: string;
   detail: string;
+  sourceUrl?: string;
+}
+
+export interface DailyScanReport {
+  title: string;
+  date: string;
+  updatedAt: string;
+  schedule: string;
+  summary: string;
+  content: string;
 }
 
 export interface DashboardData {
@@ -65,6 +75,7 @@ export interface DashboardData {
   indices: MarketIndex[];
   marketAnalysis: MarketAnalysis[];
   aiUpdates: AiUpdate[];
+  dailyScanReport?: DailyScanReport;
 }
 
 export interface SupplyChainNode {

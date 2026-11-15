@@ -681,40 +681,101 @@ def generate_dashboard(fetch_live: bool = False):
         "aiUpdates": [
             {
                 "company": "OpenAI",
-                "tag": "Agentic 工作負載",
-                "time": "6 小時前",
-                "title": "強化長鏈推理與企業級多代理協作 API 吞吐量",
-                "detail": "針對長任務推理與工具呼叫優化快取命中率，降低企業級 Agent 工作流延遲，帶動單次任務 Token 消耗量持續攀升。",
+                "tag": "代理商務與機器人整併",
+                "time": "2026-11-15 06:45",
+                "title": "啟用 ChatGPT Wallet 代理結帳，並二度整併獨立機器人團隊",
+                "detail": "為 ChatGPT Pro 用戶開放 ChatGPT Wallet，讓 dots 代理人透過單次動態支付權杖直接結帳；同時解散獨立機器人部門，併入主研究組織與 Applied 事業群。",
+                "sourceUrl": "https://aiweekly.co/ai-news-today/edition/2026-11-14",
+            },
+            {
+                "company": "Apple",
+                "tag": "端側 Siri 硬體",
+                "time": "2026-11-15 06:45",
+                "title": "正式開賣 $299「HomeView」智慧顯示器，搶攻桌面端側 AI 中樞",
+                "detail": "於美、英、澳、加、印、紐、星七國開賣 7 吋 Liquid Retina 螢幕的 HomeView，搭載徹底翻修版 Siri AI（首波跳過歐盟）。",
+                "sourceUrl": "https://aiweekly.co/ai-news-today/edition/2026-11-14",
             },
             {
                 "company": "Anthropic",
-                "tag": "企業安全與編碼",
-                "time": "9 小時前",
-                "title": "推出新一代程式碼審查與自動化測試工作流整合",
-                "detail": "聚焦大型程式碼庫跨檔案重構與終端自動化執行，進一步鞏固超過 30 萬家企業 API 付費客戶黏著度。",
+                "tag": "數學解碼與算力補位",
+                "time": "2026-11-15 06:45",
+                "title": "Claude 數日內解讀哥德爾千頁絕跡手稿，提取 663 條未公開定理",
+                "detail": "僅花數日完成哥德爾 1,009 頁 Gabelsberger 速記筆記解析，並提取 663 條數學定理；同步承接 Cursor 遭 OpenAI 斷供後的模型算力流量。",
+                "sourceUrl": "https://aiweekly.co/ai-news-today/edition/2026-11-14",
             },
             {
-                "company": "Google DeepMind",
-                "tag": "推論算力與多模態",
-                "time": "12 小時前",
-                "title": "Gemini 多模態長上下文推論效率提升與 TPU 部署擴展",
-                "detail": "每月處理 Token 規模持續創高，推論算力佔比維持整體 AI 算力三分之二以上，並加速自研晶片與 800VDC 資料中心驗證。",
+                "company": "台積電 & 輝達",
+                "tag": "台美半導體動態",
+                "time": "2026-11-15 06:45",
+                "title": "台積電核准投資 OpenAI 與 Anthropic 合計最高 10 億美元；輝達傳接觸 Arm CEO",
+                "detail": "台積電董事會授權對 OpenAI 與 Anthropic 各最高 5 億美元投資額度；外媒披露輝達接班人選接觸 Arm 執行長 Rene Haas，並收緊 14 項 GPU 出貨查核。",
+                "sourceUrl": "https://casrai.org/news/tsmc-openai-anthropic-investment-approval-2026",
             },
             {
-                "company": "NVIDIA",
-                "tag": "物理 AI & Rubin 架構",
-                "time": "15 小時前",
-                "title": "Vera Rubin 45°C 溫水冷卻與整櫃測試驗證進度更新",
-                "detail": "重申高功率機櫃省去冷水機之資料中心節能架構，同時加速 Omniverse / Isaac 實體 AI 模擬生態系向製造現場落地。",
-            },
-            {
-                "company": "DeepSeek / 阿里 Qwen",
-                "tag": "開源模型與性價比",
-                "time": "18 小時前",
-                "title": "MoE 稀疏架構推論成本再下探，推動邊緣端本地部署潮",
-                "detail": "透過量化壓縮與混合專家路由優化，讓 4B–32B 參數模型能在 Mac Apple Silicon 本機端流暢執行結構化財經資訊抽取。",
+                "company": "開源社群 & 融資",
+                "tag": "llama.cpp v1.0.0",
+                "time": "2026-11-15 06:45",
+                "title": "llama.cpp 與 ggml 邁入 v1.0.0 穩定版；Mirendil、LangChain 獲重磅融資",
+                "detail": "ggml-org 為 llama.cpp 確立語意化版本規範；AI 研發自動化新創 Mirendil 獲 10 億美元 A 輪（估值 50 億）、LangChain 獲 3 億美元 C 輪（估值 30 億）。",
+                "sourceUrl": "https://aiweekly.co/ai-news-today/edition/2026-11-14",
             },
         ],
+        "dailyScanReport": {
+            "title": "AI 每日掃描獨立報告 (2026/11/15)",
+            "date": "2026-11-15",
+            "updatedAt": "2026-11-15 06:45 CST",
+            "schedule": "每日清晨 06:45 更新",
+            "summary": "彙整 OpenAI ChatGPT Wallet、Apple HomeView 開賣、Claude 解碼哥德爾手稿、llama.cpp v1.0.0 定版、台積電核准投資 OpenAI/Anthropic 合計 10 億美元，以及 Mac mini 本地工作流優化建議。",
+            "content": """### 🏛 一、四大巨頭一手發布與前沿動向
+
+* **OpenAI 啟用「ChatGPT Wallet」代理商務支付，並二度整併獨立機器人團隊**：
+  * **代理自主結帳上線**：據 CNBC 與 [AI Weekly (11/14)](https://aiweekly.co/ai-news-today/edition/2026-11-14) 報導，OpenAI 正式為部分美國 ChatGPT Pro 訂閱戶開放 **ChatGPT Wallet**，讓 `dots` 代理人透過 American Express、Mastercard 與 Visa 直接完成結帳，並採單次動態支付權杖機制確保卡號安全。
+  * **機器人組織調整**：OpenAI 六年內二度解散獨立機器人部門，將基礎研究員併入 Mark Chen 領導的主研究組織，應用機器人與硬體團隊轉入 Greg Brockman 的 Applied 事業群。
+* **Apple 正式開賣 $299「HomeView」智慧顯示器，首波跳過歐盟市場**：
+  據 [AI Weekly 報導](https://aiweekly.co/ai-news-today/edition/2026-11-14)，Apple 已於 11 月 13 日在美、英、澳、加、印、紐、星七國開賣 **299 美元** 的 **HomeView**（7 吋 Liquid Retina 螢幕），專為新版 Siri AI 打造桌面中樞。
+* **Anthropic Claude 解碼哥德爾絕跡速記手稿，挖掘 663 條數學定理**：
+  據《衛報》與 [AI Weekly](https://aiweekly.co/ai-news-today/edition/2026-11-14) 報導，Claude 僅花數日即完成數學家哥德爾（Kurt Gödel）1,009 頁 Gabelsberger 速記手稿解析，提取出 **663 條** 先前未曾公開的已證明數學定理。
+* **OpenAI 與 Cursor 斷供條款效應延燒，Anthropic 順勢補位算力**：
+  隨著 SpaceX 以 600 億美元全股票收購 Cursor 觸發控制權變更條款，OpenAI 依約終止模型供應，Anthropic 則擴大對 Cursor 的 Claude 算力支援（[Reddit 討論](https://www.reddit.com/r/artificial/comments/1w1w7f9/openai_plans_to_stop_supplying_models_to_cursor/)）。
+
+### 🌐 二、全球 AI 產業動態、新創融資與開源社群
+
+* **Mirendil 獲 10 億美元 A 輪融資估值達 50 億美元；LangChain 估值翻倍衝上 30 億美元**：
+  專攻前沿 AI 研發自動化的 **Mirendil** 完成 **10 億美元 A 輪融資**（估值 50 億美元）；代理框架龍頭 **LangChain** 完成 Alphabet 旗下 CapitalG 領投的 **3 億美元 C 輪融資**（估值 30 億美元）（[AI Weekly](https://aiweekly.co/ai-news-today/edition/2026-11-14)）。
+* **開源本地推論里程碑：`llama.cpp` 與 `ggml` 正式發布 v1.0.0**：
+  `ggml-org` 團隊於 11 月 13 日正式為 `llama.cpp` 與 `ggml` 發布 **v1.0.0**（[AI Weekly](https://aiweekly.co/ai-news-today/edition/2026-11-14)），確立語意化版本規範（SemVer），象徵本地端 LLM 推論基礎設施已達企業級生產穩定度。
+* **個人代理通訊標準與跨界轉型**：
+  Sierra 發布 **Personal Agent Protocol 1.0（代號 Poppy）**（[CASRAI](https://casrai.org/news/sierra-poppy-personal-agent-protocol-1-0-release-2026)）；以太坊擴容專案 **MegaETH** 裁員 20%，轉向 3,000 萬美元規模 AI 賽道（[Pluang](https://pluang.com/en/news-feed/megaeth-pangkas-20-persen-staf-proyek-skalabilitas-ethereum-beralih-ke-ai)）。
+
+### 🇹🇼 三、中文圈科技媒體與台灣半導體動態
+
+* **台積電董事會核准對 OpenAI 與 Anthropic 合計最高 10 億美元投資額度**：
+  據 [CASRAI 報導](https://casrai.org/news/tsmc-openai-anthropic-investment-approval-2026)，台積電（2330）董事會核准對 **OpenAI 與 Anthropic 各最高 5 億美元投資上限**（合計 10 億美元），強化與兩大頂尖 AI 實驗室的資本與生態綁定；台灣媒體亦統計台積電海外擴廠累計獲約 **1,680 億新台幣** 補貼（[Taiwan News](https://www.taiwannews.com.tw/news/6476352)）。
+* **廣達副董梁次震談 AI 後市：無懼黃仁勳風波與美選變數，基建「箭在弦上」**：
+  廣達（2382）副董梁次震指出「不擔心」黃仁勳風波影響台廠供應鏈，AI 基建已「箭在弦上，不能不發」（[TechNews 科技新報](https://technews.tw/2026/11/14/quanta-liang-cizhen-sees-no-impact-on-ai-from-jensen-huang-controversy/)）。
+* **輝達接班傳出接觸 Arm 執行長 Rene Haas，供應鏈查核同步趨嚴**：
+  據 [TechNews 科技新報](https://finance.technews.tw/2026/11/14/nvidia-arm-rene-haas/) 引述《金融時報》，輝達董事會已接觸 **Arm 執行長 Rene Haas** 評估接任 CEO；同時據 [DIGITIMES](https://www.digitimes.com/) 披露，輝達收緊 **14 項 GPU 查核與全額預付款機制**，[TechNews 市場分析](https://finance.technews.tw/2026/11/14/ai-stocks-plunge-rebound-taiwan-stock-market-50000-points-experts-reveal-3-signals/) 提醒台股半導體鏈已進入劇烈分化階段。
+
+### 📈 四、半導體與台美股供應鏈交集
+
+| 關鍵動態與主體 | 核心進展與量化指標 | 對台美股半導體與硬體供應鏈之交叉影響 |
+| :--- | :--- | :--- |
+| **台積電 (2330 / TSM)** | 核准投資 OpenAI 與 Anthropic 各最高 5 億美元（[CASRAI](https://casrai.org/news/tsmc-openai-anthropic-investment-approval-2026)） | 不論設計端 GPU（輝達、AMD）或 ASIC（博通、聯發科 2454、世芯-KY 3661、創意 3443）市占如何消長，先進製程與 CoWoS／測試介面（日月光投控 3711、京元電 2449、旺矽 6223、穎崴 6515）及 ABF 載板（欣興 3037、南電 8046）仍具剛性需求 |
+| **輝達 (NVDA) vs. Arm** | 傳出接班接觸 Arm CEO Rene Haas（[TechNews](https://finance.technews.tw/2026/11/14/nvidia-arm-rene-haas/)）；收緊 14 項 GPU 查核（[DIGITIMES](https://www.digitimes.com/)） | 具備 Arm AGI CPU 與跨廠生態經驗的人選有助穩定治理，但短期出口查核趨嚴將拉長伺服器整機廠交貨驗收週期 |
+| **廣達 (2382) 等 ODM 與電力鏈** | 廣達副董強調 AI 基建「箭在弦上」（[TechNews](https://technews.tw/2026/11/14/quanta-liang-cizhen-sees-no-impact-on-ai-from-jensen-huang-controversy/)） | 大型資料中心機櫃採購未停，同步支撐台灣重電設備（中興電 1513、華城 1519）於電網升級與儲能配套的長期能見度 |
+| **OpenAI & Apple 端側生態** | ChatGPT Wallet 上線；Apple $299 HomeView 開賣（[AI Weekly](https://aiweekly.co/ai-news-today/edition/2026-11-14)） | 代理人高頻交易推升雲端低延遲推論負載，Apple 桌面級 Siri 裝置開啟端側 NPU 與聲學／顯示零組件拉貨 |
+
+### 💬 五、社群與論壇觀察
+
+* **Hacker News**：Jonathan Blow 發表〈If AI solved coding, why is my software still the same?〉登上 [HN 首頁](https://news.ycombinator.com/front?day=2026-11-13)，反思 AI 未等比例提升整體架構品質；[HN 討論串](https://news.ycombinator.com/item?id=50338744) 也關注 OpenPCC 與 `verbond.dev` 等機密計算驗證架構。
+* **Reddit（`r/LocalLLaMA` & `r/math`）**：[`r/LocalLLaMA`](https://www.reddit.com/r/LocalLLaMA/comments/1xsrkym/2027_is_the_year_of_open_models/) 預判搭配 `llama.cpp v1.0.0` 定版，2027 年開源權重模型在企業端性價比優勢將更顯著；[`r/math`](https://www.reddit.com/r/math/comments/1xw5zkn/ai_in_mathematics_november_14_2026/) 關注 LLM 輔助紐結理論突破後的自動證明驗證課題。
+
+### 🛠️ 六、工作流優化建議（聚焦 Mac mini 本地端 AI 與自動化管線）
+
+* **Mac mini 本地推論環境鎖定 `llama.cpp v1.0.0` 語意化版本**：透過 Ollama 或 FastAPI 介接本地財報與研究模型時，建立明確版本鎖定與回歸測試腳本，降低升級中斷排程風險。
+* **多模型路由解耦與代理協議追蹤**：借鏡 Cursor 遭斷供案例，在 LangChain 或自建 Python 服務中將「業務邏輯」與「單一模型供應商」解耦，並追蹤 **Sierra Poppy (PAP 1.0)** 規範，確保雲端與本地模型可無縫切換。
+* **非結構化長文本管線的「萃取＋程式驗算」雙軌制**：處理長篇法說會逐字稿與研究報告時，先由長上下文模型進行結構化欄位萃取並寫入 **Google Sheets / BigQuery**，再搭配確定性 Python 腳本交叉驗算，兼顧高通量閱讀與零幻覺準確度。""",
+        },
     }
     with open(DATA_OUT / "dashboard.json", "w", encoding="utf-8") as fp:
         json.dump(dashboard, fp, ensure_ascii=False, indent=2)
