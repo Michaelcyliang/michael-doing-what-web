@@ -356,35 +356,124 @@ def sync_learning():
     print(f"[Learning] 已同步 {total_pdfs} 份 PDF 與 {len(articles)} 篇精選 Markdown 報告")
 
 
-def fetch_yahoo_quote(symbol: str):
-    """使用標準函式庫向 Yahoo Finance Chart API 抓取最新收盤與近 7 日走勢"""
+def fetch_frankfurter_cny():
+    """使用 Frankfurter API (https://api.frankfurter.dev/) 抓取 USD/CNY 最新匯率與近 7 日走勢"""
     import urllib.request
-    import urllib.parse
+    from datetime import datetime, timedelta
 
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=1mo&interval=1d"
+    end_date = datetime.now().strftime("%Y-%m-%d")
+    start_date = (datetime.now() - timedelta(days=14)).strftime("%Y-%m-%d")
+    url = f"https://api.frankfurter.dev/v1/{start_date}..{end_date}?base=USD&symbols=CNY"
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=10) as resp:
         payload = json.loads(resp.read().decode("utf-8"))
-    result = payload["chart"]["result"][0]
-    meta = result["meta"]
-    closes = [c for c in result["indicators"]["quote"][0]["close"] if c is not None]
-    last_price = meta.get("regularMarketPrice") or closes[-1]
-    prev_close = meta.get("chartPreviousClose") or (closes[-2] if len(closes) >= 2 else last_price)
-    if len(closes) >= 2:
-        prev_close = closes[-2]
-    pct = ((last_price - prev_close) / prev_close) * 100 if prev_close else 0.0
+    rates_map = payload.get("rates", {})
+    dates = sorted(rates_map.keys())
+    series = [round(float(rates_map[d]["CNY"]), 4) for d in dates if "CNY" in rates_map[d]]
+    if not series:
+        raise ValueError("Frankfurter 未回傳 CNY 匯率")
+    last_rate = series[-1]
+    prev_rate = series[-2] if len(series) >= 2 else last_rate
+    diff = last_rate - prev_rate
+    pct = (diff / prev_rate) * 100 if prev_rate else 0.0
     return {
-        "price": last_price,
-        "prev": prev_close,
-        "pct": pct,
-        "history": [round(x, 4) for x in closes[-7:]],
+        "rate": f"{last_rate:.4f}",
+        "change": f"{diff:+.4f} ({pct:+.2f}%)",
+        "direction": "up" if diff >= 0 else "down",
+        "history": series[-7:],
+        "date": dates[-1],
     }
+
+
+def fetch_yfinance_quote(symbol: str):
+    """優先使用開源套件 yfinance 抓取美股與全球股市指數；若本機未安裝則退回 Yahoo Chart API"""
+    try:
+        import yfinance as yf
+
+        hist = yf.Ticker(symbol).history(period="1mo", interval="1d")
+        closes = [float(x) for x in hist["Close"].dropna().tolist()]
+        if not closes:
+            raise ValueError(f"yfinance {symbol} 無收盤數據")
+        last_price = closes[-1]
+        prev_close = closes[-2] if len(closes) >= 2 else last_price
+        pct = ((last_price - prev_close) / prev_close) * 100 if prev_close else 0.0
+        return {
+            "price": last_price,
+            "prev": prev_close,
+            "pct": pct,
+            "history": [round(x, 4) for x in closes[-7:]],
+        }
+    except ImportError:
+        import urllib.request
+        import urllib.parse
+
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=1mo&interval=1d"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+        result = payload["chart"]["result"][0]
+        meta = result["meta"]
+        closes = [c for c in result["indicators"]["quote"][0]["close"] if c is not None]
+        last_price = meta.get("regularMarketPrice") or closes[-1]
+        prev_close = closes[-2] if len(closes) >= 2 else (meta.get("chartPreviousClose") or last_price)
+        pct = ((last_price - prev_close) / prev_close) * 100 if prev_close else 0.0
+        return {
+            "price": last_price,
+            "prev": prev_close,
+            "pct": pct,
+            "history": [round(x, 4) for x in closes[-7:]],
+        }
+
+
+def fetch_twse_watchlist():
+    """從證交所 OpenAPI (https://openapi.twse.com.tw/) 與櫃買中心 OpenAPI 抓取台股每日收盤報價"""
+    import urllib.request
+
+    quotes = {}
+    req = urllib.request.Request(
+        "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL",
+        headers={"User-Agent": "Mozilla/5.0"},
+    )
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        for row in json.loads(resp.read().decode("utf-8")):
+            code = row.get("Code")
+            if not code:
+                continue
+            try:
+                close = float(str(row.get("ClosingPrice", "")).replace(",", ""))
+                chg = float(str(row.get("Change", "0")).replace(",", ""))
+                prev = close - chg
+                pct = (chg / prev) * 100 if prev else 0.0
+                quotes[code] = {"price": f"{close:,.0f}" if close >= 1000 else f"{close:,.1f}", "change": f"{pct:+.2f}%", "up": chg >= 0}
+            except ValueError:
+                continue
+    try:
+        req_otc = urllib.request.Request(
+            "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes",
+            headers={"User-Agent": "Mozilla/5.0"},
+        )
+        with urllib.request.urlopen(req_otc, timeout=15) as resp:
+            for row in json.loads(resp.read().decode("utf-8")):
+                code = row.get("SecuritiesCompanyCode")
+                if not code:
+                    continue
+                try:
+                    close = float(str(row.get("Close", "")).replace(",", ""))
+                    chg = float(str(row.get("Change", "0")).replace(",", ""))
+                    prev = close - chg
+                    pct = (chg / prev) * 100 if prev else 0.0
+                    quotes[code] = {"price": f"{close:,.0f}" if close >= 1000 else f"{close:,.1f}", "change": f"{pct:+.2f}%", "up": chg >= 0}
+                except ValueError:
+                    continue
+    except Exception as e:
+        print(f"  ⚠️ 抓取 TPEx 上櫃報價失敗: {e}")
+    return quotes
 
 
 def generate_dashboard(fetch_live: bool = False):
     from datetime import datetime
 
-    # 基準：2026-11-13 收盤實測數據（經央行、TWSE、TPEx、Xinhua、Google Finance 交叉校驗）
+    # 基準：2026-11-13 收盤實測數據（經 TWSE、CBC、Frankfurter、yfinance/Google Finance 交叉校驗）
     fx_list = [
         {
             "pair": "USD/TWD",
@@ -392,17 +481,17 @@ def generate_dashboard(fetch_live: bool = False):
             "rate": "32.838",
             "change": "-0.051 (-0.16%)",
             "direction": "down",
-            "note": "台灣央行 11/13 收盤價 32.838（前收 32.889），現貨約 32.90",
+            "note": "台灣央行 11/13 收盤價 32.838（yfinance TWD=X 現貨約 32.90）",
             "history": [32.768, 32.882, 32.865, 32.860, 32.889, 32.838],
         },
         {
             "pair": "USD/CNY",
             "label": "美元兌人民幣",
-            "rate": "6.6718",
-            "change": "+0.0014 (+0.02%)",
+            "rate": "6.6719",
+            "change": "+0.0015 (+0.02%)",
             "direction": "up",
-            "note": "11/13 收盤約 6.6705–6.6744（較前日 6.6704 微幅整理）",
-            "history": [6.6765, 6.6728, 6.6704, 6.6704, 6.6704, 6.6718],
+            "note": "來源：Frankfurter API (ECB 參考匯率 2026-11-13)",
+            "history": [6.6765, 6.6728, 6.6704, 6.6704, 6.6704, 6.6719],
         },
     ]
 
@@ -418,29 +507,37 @@ def generate_dashboard(fetch_live: bool = False):
         {"region": "中港", "name": "恒生指數 (HSI)", "value": "23,637.60", "change": "-1.55%", "up": False, "symbol": "^HSI"},
     ]
 
-    updated_label = "2026-11-13 收盤基準（2026-11-14 校驗）"
+    updated_label = "2026-11-13 收盤基準（TWSE / Frankfurter / yfinance）"
 
     if fetch_live:
-        print("[Dashboard] 正在向 Yahoo Finance 抓取最新即時行情...")
+        print("[Dashboard] 正在使用 yfinance 與 Frankfurter 抓取最新行情...")
         for item in indices_list:
             try:
-                q = fetch_yahoo_quote(item["symbol"])
+                q = fetch_yfinance_quote(item["symbol"])
                 item["value"] = f"{q['price']:,.2f}"
                 item["change"] = f"{q['pct']:+.2f}%"
                 item["up"] = q["pct"] >= 0
             except Exception as e:
-                print(f"  ⚠️ 抓取 {item['symbol']} 失敗，保留基準值: {e}")
-        for fx_item, sym in zip(fx_list, ["TWD=X", "CNY=X"]):
-            try:
-                q = fetch_yahoo_quote(sym)
-                diff = q["price"] - q["prev"]
-                fx_item["rate"] = f"{q['price']:.3f}" if sym == "TWD=X" else f"{q['price']:.4f}"
-                fx_item["change"] = f"{diff:+.3f} ({q['pct']:+.2f}%)"
-                fx_item["direction"] = "up" if diff >= 0 else "down"
-                if q["history"]:
-                    fx_item["history"] = q["history"]
-            except Exception as e:
-                print(f"  ⚠️ 抓取匯率 {sym} 失敗，保留基準值: {e}")
+                print(f"  ⚠️ yfinance 抓取 {item['symbol']} 失敗，保留基準值: {e}")
+        try:
+            q_twd = fetch_yfinance_quote("TWD=X")
+            diff = q_twd["price"] - q_twd["prev"]
+            fx_list[0]["rate"] = f"{q_twd['price']:.3f}"
+            fx_list[0]["change"] = f"{diff:+.3f} ({q_twd['pct']:+.2f}%)"
+            fx_list[0]["direction"] = "up" if diff >= 0 else "down"
+            if q_twd["history"]:
+                fx_list[0]["history"] = q_twd["history"]
+        except Exception as e:
+            print(f"  ⚠️ yfinance 抓取 USD/TWD 失敗: {e}")
+        try:
+            cny_data = fetch_frankfurter_cny()
+            fx_list[1]["rate"] = cny_data["rate"]
+            fx_list[1]["change"] = cny_data["change"]
+            fx_list[1]["direction"] = cny_data["direction"]
+            fx_list[1]["history"] = cny_data["history"]
+            fx_list[1]["note"] = f"來源：Frankfurter API ({cny_data['date']})"
+        except Exception as e:
+            print(f"  ⚠️ Frankfurter 抓取 USD/CNY 失敗: {e}")
         updated_label = datetime.now().strftime("%Y-%m-%d %H:%M CST (即時同步)")
 
     for item in indices_list:
@@ -545,7 +642,7 @@ def generate_dashboard(fetch_live: bool = False):
     print("[Dashboard] 已產出 public/data/dashboard.json")
 
 
-def generate_projects():
+def generate_projects(fetch_live: bool = False):
     # 7 層 AI 產業鏈樹狀圖資料（依據 AI 產業鏈研究報告_v5_Michael 20261102.pdf）
     ai_supply_chain = {
         "name": "AI 產業鏈 7 層架構 (v5)",
@@ -730,8 +827,8 @@ def generate_projects():
             "ticker": "2330",
             "name": "台積電",
             "sector": "L7 晶圓代工與先進封裝",
-            "price": "1,085",
-            "change": "+2.36%",
+            "price": "2,350",
+            "change": "+0.43%",
             "up": True,
             "technical": "股價站穩所有均線之上，日 KD 黃金交叉向上，外資回補帶動量能溫和放大，短線支撐觀察 10 日線。",
             "chips": "外資連續三日買超，投信維持長線核心持股水位，千張大戶持股比例穩定集中於 86% 以上。",
@@ -741,8 +838,8 @@ def generate_projects():
             "ticker": "2317",
             "name": "鴻海",
             "sector": "L5 伺服器整櫃 ODM",
-            "price": "218.5",
-            "change": "+1.63%",
+            "price": "241.0",
+            "change": "+0.42%",
             "up": True,
             "technical": "沿上升軌道墊高，季線提供強勁支撐，MACD 柱狀體翻紅，呈多頭緩步攻堅格局。",
             "chips": "三大法人同步站在買方，借券賣出餘額持續下降，籌碼面由凌亂轉趨穩定。",
@@ -752,8 +849,8 @@ def generate_projects():
             "ticker": "2308",
             "name": "台達電",
             "sector": "L4/L6H 800VDC 電源與 CDU",
-            "price": "412.0",
-            "change": "+1.98%",
+            "price": "1,240",
+            "change": "0.00%",
             "up": True,
             "technical": "跳空突破前波整理平台上緣，成交量放大至 20 日均量 1.5 倍，均線呈多頭排列。",
             "chips": "投信連續買超佈局高壓直流電源題材，外資持股比重穩步回升。",
@@ -763,8 +860,8 @@ def generate_projects():
             "ticker": "3017",
             "name": "奇鋐",
             "sector": "L6E 液冷散熱模組",
-            "price": "695.0",
-            "change": "+3.12%",
+            "price": "3,040",
+            "change": "+9.55%",
             "up": True,
             "technical": "帶量長紅突破月線反壓，RSI 指標進入強勢區但尚未過熱，短線動能強勁。",
             "chips": "投信與自營商同步加碼，融資餘額維持低檔，籌碼結構乾淨。",
@@ -774,10 +871,10 @@ def generate_projects():
             "ticker": "2449",
             "name": "京元電",
             "sector": "L7B AI 晶片測試服務",
-            "price": "136.5",
-            "change": "+1.11%",
-            "up": True,
-            "technical": "股價於高檔箱型區間震盪整理，下檔半年線具強力買盤承接。",
+            "price": "214.0",
+            "change": "-7.36%",
+            "up": False,
+            "technical": "股價於高檔箱型區間震盪整理，下檔季線具強力買盤承接。",
             "chips": "法人關注資本支出折舊與 AI 營收佔比變化，外資呈區間來回操作。",
             "fundamental": "資本支出大幅上調至 500 億新台幣，AI 加速器測試時間增加 100-200%、單價提升 50-100%，並具備自製高功率老化爐 (Burn-in) 優勢。",
         },
@@ -785,8 +882,8 @@ def generate_projects():
             "ticker": "3443",
             "name": "創意",
             "sector": "L6A 客製化 ASIC 設計服務",
-            "price": "1,480",
-            "change": "+2.78%",
+            "price": "8,610",
+            "change": "+9.54%",
             "up": True,
             "technical": "均線糾結後向上發散，站穩所有中短期均線，多方控盤力道明顯。",
             "chips": "外資與投信連日買超，高價股千金族群比價效應升溫。",
@@ -796,25 +893,38 @@ def generate_projects():
             "ticker": "3081",
             "name": "聯亞",
             "sector": "L6F 矽光子 CW 雷射光源",
-            "price": "388.0",
-            "change": "-0.77%",
-            "up": False,
-            "technical": "前波急漲後出現良性量縮回測 5 日線，中長期上升趨勢尚未破壞。",
+            "price": "2,110",
+            "change": "+0.48%",
+            "up": True,
+            "technical": "高檔震盪後量縮整理，中長期上升趨勢尚未破壞。",
             "chips": "短線當沖比偏高，須留意高檔獲利了結賣壓與投信動向。",
-            "fundamental": "1.6T CW 雷射量產出貨，9 月營收 5.40 億元 (YoY +190%)。因矽光子本身無法發光，外掛 InP 雷射晶片為 CPO 架構下稀缺關鍵環節。",
+            "fundamental": "1.6T CW 雷射量產出貨，10 月營收 5.70 億元 (YoY +182.96%)。因矽光子本身無法發光，外掛 InP 雷射晶片為 CPO 架構下稀缺關鍵環節。",
         },
         {
             "ticker": "2408",
             "name": "南亞科",
             "sector": "L6B 利基型 DRAM 記憶體",
-            "price": "74.2",
-            "change": "+0.95%",
-            "up": True,
-            "technical": "底部打底完成後溫和放量上攻，挑戰前波頸線壓力區。",
-            "chips": "外資買盤回補記憶體週期反轉標的，官股行庫逢高調節。",
+            "price": "377.0",
+            "change": "-0.66%",
+            "up": False,
+            "technical": "高檔震盪整理，觀察月線支撐與成交量能變化。",
+            "chips": "外資與投信短線調節換手，關注記憶體合約價續漲動能。",
             "fundamental": "HBM 消耗大量晶圓產能並擠壓傳統 DRAM 供給，推升合約價上行；Q3 營收 889.58 億元 (YoY +373.71%)，並規劃屏東 3D TSV 封測廠。",
         },
     ]
+
+    if fetch_live:
+        print("[Projects] 正在從 TWSE / TPEx OpenAPI 抓取台股自選股最新收盤價...")
+        try:
+            tw_quotes = fetch_twse_watchlist()
+            for st in watchlist:
+                if st["ticker"] in tw_quotes:
+                    q = tw_quotes[st["ticker"]]
+                    st["price"] = q["price"]
+                    st["change"] = q["change"]
+                    st["up"] = q["up"]
+        except Exception as e:
+            print(f"  ⚠️ 抓取 TWSE OpenAPI 失敗，保留基準值: {e}")
 
     dev_logs = [
         {
@@ -871,9 +981,12 @@ def generate_projects():
 
 
 if __name__ == "__main__":
+    import sys
+
+    fetch_live = "--fetch-live" in sys.argv
     DATA_OUT.mkdir(parents=True, exist_ok=True)
     sync_outings()
     sync_learning()
-    generate_dashboard()
-    generate_projects()
+    generate_dashboard(fetch_live=fetch_live)
+    generate_projects(fetch_live=fetch_live)
     print("✅ 所有靜態資料同步完成！")
