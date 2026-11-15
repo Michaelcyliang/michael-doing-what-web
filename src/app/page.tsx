@@ -144,8 +144,8 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 h-14 border-b border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md">
-        <div className="max-w-[1440px] mx-auto h-full px-4 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 min-h-[96px] sm:min-h-[124px] py-2 border-b border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md flex items-center">
+        <div className="max-w-[1440px] w-full mx-auto px-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -162,18 +162,18 @@ export default function HomePage() {
             <button
               type="button"
               onClick={() => handleNavigate('war-room', 'all')}
-              className="flex items-center gap-2.5 text-left"
+              className="flex items-center gap-3.5 text-left"
             >
               <img
                 src={assetPath('/images/michael-logo.png')}
                 alt="麥克在幹嘛 Logo"
-                className="w-9 h-9 rounded-lg object-cover shadow-sm border border-slate-200/70 dark:border-slate-700/70"
+                className="w-20 h-20 sm:w-[108px] sm:h-[108px] rounded-2xl object-cover shadow-md border border-slate-200/70 dark:border-slate-700/70 shrink-0"
               />
               <div className="leading-tight">
-                <div className="font-bold text-sm tracking-tight text-slate-900 dark:text-white">
+                <div className="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">
                   麥克在幹嘛
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-mono">
                   Michael Action Center
                 </div>
               </div>
@@ -250,11 +250,11 @@ export default function HomePage() {
         <aside
           className={`${
             sidebarOpen
-              ? 'fixed inset-y-14 left-0 z-30 block w-64 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 p-4 shadow-xl'
+              ? 'fixed top-[96px] bottom-0 left-0 z-30 block w-64 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 p-4 shadow-xl'
               : 'hidden'
           } lg:block lg:w-60 lg:shrink-0 lg:border-r lg:border-slate-200 lg:dark:border-slate-800/80 lg:p-4`}
         >
-          <div className="sticky top-20 space-y-5">
+          <div className="sticky top-36 space-y-5">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 mb-2">
                 {MODULES.find((m) => m.id === activeModule)?.label} · 子項目
