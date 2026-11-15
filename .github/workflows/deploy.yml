@@ -2,6 +2,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+  schedule:
+    # 台灣時間週一至週五早上 07:00 (UTC 23:00) 自動抓取最新金融數據並發布
+    - cron: '0 23 * * 1-5'
+  workflow_dispatch:
 permissions:
   contents: read
   pages: write
@@ -11,6 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Python Dependencies
+        run: pip install -r scripts/requirements.txt
+      - name: Sync Live Market Data (TWSE / Frankfurter / yfinance)
+        run: python3 scripts/sync_data.py --fetch-live
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
