@@ -91,6 +91,10 @@ def safe_filename(name: str, idx: int, ext: str) -> str:
 
 def sync_outings():
     outings_src = DATA_PIPELINE / "Outings"
+    if not outings_src.exists() and (DATA_OUT / "outings.json").exists():
+        print("[Outings] 找不到本地 Data_Pipeline/Outings，保留現有 public/data/outings.json")
+        return
+
     OUTINGS_IMG_OUT.mkdir(parents=True, exist_ok=True)
     albums = []
 
@@ -158,6 +162,10 @@ def sync_outings():
 
 def sync_learning():
     learning_src = DATA_PIPELINE / "Learning"
+    if not learning_src.exists() and (DATA_OUT / "learning.json").exists():
+        print("[Learning] 找不到本地 Data_Pipeline/Learning，保留現有 public/data/learning.json")
+        return
+
     LEARNING_PDF_OUT.mkdir(parents=True, exist_ok=True)
     LEARNING_MD_OUT.mkdir(parents=True, exist_ok=True)
 
