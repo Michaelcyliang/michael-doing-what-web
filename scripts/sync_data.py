@@ -479,7 +479,9 @@ def fetch_twse_watchlist():
 
 
 def generate_dashboard(fetch_live: bool = False):
-    from datetime import datetime
+    from datetime import datetime, timedelta, timezone
+
+    tw_tz = timezone(timedelta(hours=8))
 
     # 基準：2026-11-13 收盤實測數據（經 TWSE、CBC、Frankfurter、yfinance/Google Finance 交叉校驗）
     fx_list = [
@@ -546,7 +548,7 @@ def generate_dashboard(fetch_live: bool = False):
             fx_list[1]["note"] = f"來源：Frankfurter API ({cny_data['date']})"
         except Exception as e:
             print(f"  ⚠️ Frankfurter 抓取 USD/CNY 失敗: {e}")
-        updated_label = datetime.now().strftime("%Y-%m-%d %H:%M CST (即時同步)")
+        updated_label = datetime.now(tw_tz).strftime("%Y-%m-%d %H:%M CST (即時同步)")
 
     for item in indices_list:
         item.pop("symbol", None)
@@ -653,7 +655,7 @@ def generate_dashboard(fetch_live: bool = False):
             "totalChecked": total_checked,
             "passed": passed,
             "warnings": warnings,
-            "verifiedAt": datetime.now().strftime("%Y-%m-%d %H:%M CST"),
+            "verifiedAt": datetime.now(tw_tz).strftime("%Y-%m-%d %H:%M CST"),
             "pipeline": "MacroMicro + Frankfurter + yfinance",
         },
         "centralBanks": central_banks,
@@ -1031,8 +1033,10 @@ def generate_projects(fetch_live: bool = False):
         },
     ]
 
-    from datetime import datetime
+    from datetime import datetime, timedelta, timezone
 
+    tw_tz = timezone(timedelta(hours=8))
+    now_tw = datetime.now(tw_tz)
     stock_warnings = []
     stock_passed = 0
     for st in watchlist:
@@ -1042,7 +1046,7 @@ def generate_projects(fetch_live: bool = False):
             "sourceUrl",
             "https://www.tpex.org.tw/" if is_otc else "https://openapi.twse.com.tw/",
         )
-        st.setdefault("asOfDate", "2026-11-13")
+        st.setdefault("asOfDate", now_tw.strftime("%Y-%m-%d") if fetch_live else "2026-11-13")
         try:
             p = float(str(st["price"]).replace(",", ""))
             pct = float(str(st["change"]).replace("%", "").replace("+", ""))
@@ -1058,12 +1062,12 @@ def generate_projects(fetch_live: bool = False):
     with open(DATA_OUT / "projects.json", "w", encoding="utf-8") as fp:
         json.dump(
             {
-                "updatedAt": "2026-11-13 收盤基準",
+                "updatedAt": now_tw.strftime("%Y-%m-%d %H:%M CST (即時同步)") if fetch_live else "2026-11-13 收盤基準",
                 "verification": {
                     "totalChecked": len(watchlist),
                     "passed": stock_passed,
                     "warnings": stock_warnings,
-                    "verifiedAt": datetime.now().strftime("%Y-%m-%d %H:%M CST"),
+                    "verifiedAt": now_tw.strftime("%Y-%m-%d %H:%M CST"),
                     "pipeline": "TWSE / TPEx OpenAPI",
                 },
                 "aiSupplyChain": ai_supply_chain,
