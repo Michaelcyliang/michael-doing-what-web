@@ -3,7 +3,7 @@
   "articles": [
     {
       "id": "ai-supply-chain-v5-synthesis",
-      "category": "財經研析",
+      "category": "財經分析",
       "title": "AI 產業鏈研究報告 v5：由消費者向上游推導的七層架構與硬體瓶頸",
       "date": "2026-11-02",
       "readTime": "12 分鐘",
@@ -68,6 +68,90 @@
   ],
   "pdfGroups": [
     {
+      "topic": "Podcast",
+      "slug": "podcast",
+      "items": [
+        {
+          "id": "podcast-01",
+          "title": "資金為何不回家",
+          "filename": "資金為何不回家.mp4",
+          "fileType": "MP4",
+          "sizeMB": 36.02,
+          "url": "/content/learning/pdfs/podcast/01_item_01.mp4"
+        }
+      ]
+    },
+    {
+      "topic": "AI 學習",
+      "slug": "ai-learning",
+      "items": [
+        {
+          "id": "ai-learning-01",
+          "title": "AI 時代經濟不確定性與韌性政策_20261028",
+          "filename": "AI 時代經濟不確定性與韌性政策_20261028.pdf",
+          "fileType": "PDF",
+          "sizeMB": 0.47,
+          "url": "/content/learning/pdfs/ai-learning/01_AI__20261028.pdf"
+        },
+        {
+          "id": "ai-learning-02",
+          "title": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊",
+          "filename": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊.pdf",
+          "fileType": "PDF",
+          "sizeMB": 0.45,
+          "url": "/content/learning/pdfs/ai-learning/02_AI_28.pdf"
+        },
+        {
+          "id": "ai-learning-03",
+          "title": "AI 賦能 IE 4.0 : IIoT 方法論",
+          "filename": "AI 賦能 IE 4.0 : IIoT 方法論.pdf",
+          "fileType": "PDF",
+          "sizeMB": 3.61,
+          "url": "/content/learning/pdfs/ai-learning/03_AI_IE_4_0_IIoT.pdf"
+        },
+        {
+          "id": "ai-learning-04",
+          "title": "GTC2026_Berlin_Keynote_Analysis",
+          "filename": "GTC2026_Berlin_Keynote_Analysis.pdf",
+          "fileType": "PDF",
+          "sizeMB": 0.26,
+          "url": "/content/learning/pdfs/ai-learning/04_GTC2026_Berlin_Keynote_Analysis.pdf"
+        },
+        {
+          "id": "ai-learning-05",
+          "title": "Sam Altman Stanford GSB Briefing_2 026 Oct",
+          "filename": "Sam Altman Stanford GSB Briefing_2 026 Oct.pdf",
+          "fileType": "PDF",
+          "sizeMB": 11.53,
+          "url": "/content/learning/pdfs/ai-learning/05_Sam_Altman_Stanford_GSB_Briefing_2_026_Oct.pdf"
+        },
+        {
+          "id": "ai-learning-06",
+          "title": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談",
+          "filename": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談.pdf",
+          "fileType": "PDF",
+          "sizeMB": 13.8,
+          "url": "/content/learning/pdfs/ai-learning/06_Sam_Altman_AI___CS183.pdf"
+        },
+        {
+          "id": "ai-learning-07",
+          "title": "nvidia-gtc-berlin-2026-keynote-deck",
+          "filename": "nvidia-gtc-berlin-2026-keynote-deck.pdf",
+          "fileType": "PDF",
+          "sizeMB": 11.24,
+          "url": "/content/learning/pdfs/ai-learning/07_nvidia-gtc-berlin-2026-keynote-deck.pdf"
+        },
+        {
+          "id": "ai-learning-08",
+          "title": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦",
+          "filename": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦.pdf",
+          "fileType": "PDF",
+          "sizeMB": 17.93,
+          "url": "/content/learning/pdfs/ai-learning/08_GTC_2026_Berlin_AI.pdf"
+        }
+      ]
+    },
+    {
       "topic": "機器人供應鏈",
       "slug": "humanoid-robotics",
       "items": [
@@ -90,7 +174,7 @@
       ]
     },
     {
-      "topic": "財經研析",
+      "topic": "財經分析",
       "slug": "finance",
       "items": [
         {
@@ -116,6 +200,14 @@
           "fileType": "JPEG",
           "sizeMB": 0.87,
           "url": "/content/learning/pdfs/finance/03_item_03.jpeg"
+        },
+        {
+          "id": "finance-04",
+          "title": "資金為何不回家_Michael 20261115",
+          "filename": "資金為何不回家_Michael 20261115.pdf",
+          "fileType": "PDF",
+          "sizeMB": 11.58,
+          "url": "/content/learning/pdfs/finance/04_Michael_20261115.pdf"
         }
       ]
     },
@@ -194,76 +286,6 @@
           "fileType": "PDF",
           "sizeMB": 10.84,
           "url": "/content/learning/pdfs/game-theory/09_9.pdf"
-        }
-      ]
-    },
-    {
-      "topic": "AI 學習",
-      "slug": "ai-learning",
-      "items": [
-        {
-          "id": "ai-learning-01",
-          "title": "AI 時代經濟不確定性與韌性政策_20261028",
-          "filename": "AI 時代經濟不確定性與韌性政策_20261028.pdf",
-          "fileType": "PDF",
-          "sizeMB": 0.47,
-          "url": "/content/learning/pdfs/ai-learning/01_AI__20261028.pdf"
-        },
-        {
-          "id": "ai-learning-02",
-          "title": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊",
-          "filename": "AI 解出了什麼：28 位費爾茲得主聯署之後的數學革命與思維衝擊.pdf",
-          "fileType": "PDF",
-          "sizeMB": 0.45,
-          "url": "/content/learning/pdfs/ai-learning/02_AI_28.pdf"
-        },
-        {
-          "id": "ai-learning-03",
-          "title": "AI 賦能 IE 4.0 : IIoT 方法論",
-          "filename": "AI 賦能 IE 4.0 : IIoT 方法論.pdf",
-          "fileType": "PDF",
-          "sizeMB": 3.61,
-          "url": "/content/learning/pdfs/ai-learning/03_AI_IE_4_0_IIoT.pdf"
-        },
-        {
-          "id": "ai-learning-04",
-          "title": "GTC2026_Berlin_Keynote_Analysis",
-          "filename": "GTC2026_Berlin_Keynote_Analysis.pdf",
-          "fileType": "PDF",
-          "sizeMB": 0.26,
-          "url": "/content/learning/pdfs/ai-learning/04_GTC2026_Berlin_Keynote_Analysis.pdf"
-        },
-        {
-          "id": "ai-learning-05",
-          "title": "Sam Altman Stanford GSB Briefing_2 026 Oct",
-          "filename": "Sam Altman Stanford GSB Briefing_2 026 Oct.pdf",
-          "fileType": "PDF",
-          "sizeMB": 11.53,
-          "url": "/content/learning/pdfs/ai-learning/05_Sam_Altman_Stanford_GSB_Briefing_2_026_Oct.pdf"
-        },
-        {
-          "id": "ai-learning-06",
-          "title": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談",
-          "filename": "Sam Altman 的 AI 戰略藍圖_史丹佛 CS183 課堂訪談.pdf",
-          "fileType": "PDF",
-          "sizeMB": 13.8,
-          "url": "/content/learning/pdfs/ai-learning/06_Sam_Altman_AI___CS183.pdf"
-        },
-        {
-          "id": "ai-learning-07",
-          "title": "nvidia-gtc-berlin-2026-keynote-deck",
-          "filename": "nvidia-gtc-berlin-2026-keynote-deck.pdf",
-          "fileType": "PDF",
-          "sizeMB": 11.24,
-          "url": "/content/learning/pdfs/ai-learning/07_nvidia-gtc-berlin-2026-keynote-deck.pdf"
-        },
-        {
-          "id": "ai-learning-08",
-          "title": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦",
-          "filename": "智械落地：GTC 2026 Berlin 點亮實體 AI 晨曦.pdf",
-          "fileType": "PDF",
-          "sizeMB": 17.93,
-          "url": "/content/learning/pdfs/ai-learning/08_GTC_2026_Berlin_AI.pdf"
         }
       ]
     }

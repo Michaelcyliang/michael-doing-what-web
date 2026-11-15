@@ -65,20 +65,22 @@ OUTINGS_META = {
 }
 
 TOPIC_SLUGS = {
+    "Podcast": "podcast",
+    "AI 學習": "ai-learning",
     "人形機器人供應鏈拆解": "humanoid-robotics",
     "財經": "finance",
     "賽局理論": "game-theory",
-    "AI 學習": "ai-learning",
 }
 
 TOPIC_DISPLAY_NAMES = {
-    "人形機器人供應鏈拆解": "機器人供應鏈",
-    "財經": "財經研析",
-    "賽局理論": "賽局理論",
+    "Podcast": "Podcast",
     "AI 學習": "AI 學習",
+    "人形機器人供應鏈拆解": "機器人供應鏈",
+    "財經": "財經分析",
+    "賽局理論": "賽局理論",
 }
 
-TOPIC_ORDER = ["機器人供應鏈", "財經研析", "賽局理論", "AI 學習"]
+TOPIC_ORDER = ["Podcast", "AI 學習", "機器人供應鏈", "財經分析", "賽局理論"]
 
 
 def safe_filename(name: str, idx: int, ext: str) -> str:
@@ -186,7 +188,7 @@ def sync_learning():
                     for f in topic_dir.iterdir()
                     if f.is_file()
                     and not f.name.startswith(".")
-                    and f.suffix.lower() in {".pdf", ".jpeg", ".jpg", ".png", ".webp"}
+                    and f.suffix.lower() in {".pdf", ".jpeg", ".jpg", ".png", ".webp", ".mp4", ".mov", ".webm", ".m4v"}
                 ]
             )
             for idx, f in enumerate(files, start=1):
@@ -213,7 +215,7 @@ def sync_learning():
     articles = [
         {
             "id": "ai-supply-chain-v5-synthesis",
-            "category": "財經研析",
+            "category": "財經分析",
             "title": "AI 產業鏈研究報告 v5：由消費者向上游推導的七層架構與硬體瓶頸",
             "date": "2026-11-02",
             "readTime": "12 分鐘",

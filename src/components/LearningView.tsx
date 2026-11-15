@@ -10,6 +10,8 @@ import {
   ListTree,
   Clock,
   Tag,
+  PlayCircle,
+  Video,
 } from 'lucide-react';
 import type { LearningData } from '../lib/types';
 import { assetPath } from '../lib/assetPath';
@@ -46,6 +48,13 @@ export default function LearningView({
   const [selectedArticleId, setSelectedArticleId] = useState<string>(
     data.articles[0]?.id || ''
   );
+  const podcastGroup = data.pdfGroups.find((g) => g.topic === 'Podcast');
+  const [selectedVideoId, setSelectedVideoId] = useState<string>(
+    podcastGroup?.items[0]?.id || ''
+  );
+  const activeVideo =
+    podcastGroup?.items.find((v) => v.id === selectedVideoId) ||
+    podcastGroup?.items[0];
 
   const activeArticle =
     filteredArticles.find((a) => a.id === selectedArticleId) ||
@@ -90,7 +99,7 @@ export default function LearningView({
             學習報告 (Learning Reports)
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            靜態知識庫：Markdown 深度研析筆記與 Data_Pipeline/Learning 4 大分類原始檔案歸檔
+            靜態知識庫：Podcast 影音學習、Markdown 深度研析筆記與 Data_Pipeline/Learning 5 大分類原始檔案歸檔
           </p>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -120,8 +129,91 @@ export default function LearningView({
         </div>
       </div>
 
-      {/* Repository View */}
-      {activeSubSection === 'pdfs' ? (
+      {/* Podcast Video Player View */}
+      {activeSubSection === 'Podcast' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <div className="lg:col-span-4 space-y-2.5">
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1 flex items-center gap-1.5">
+              <Video className="w-3.5 h-3.5 text-violet-500" />
+              Podcast 影片清單 ({podcastGroup?.items.length || 0})
+            </div>
+            {podcastGroup && podcastGroup.items.length > 0 ? (
+              podcastGroup.items.map((vid) => {
+                const selected = activeVideo?.id === vid.id;
+                return (
+                  <button
+                    key={vid.id}
+                    type="button"
+                    onClick={() => setSelectedVideoId(vid.id)}
+                    className={`w-full text-left rounded-xl border p-3.5 transition-all flex items-start gap-3 ${
+                      selected
+                        ? 'border-violet-500 bg-violet-50/70 dark:bg-violet-950/30 shadow-sm'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 hover:border-violet-400/60'
+                    }`}
+                  >
+                    <PlayCircle
+                      className={`w-5 h-5 mt-0.5 shrink-0 ${
+                        selected ? 'text-violet-600 dark:text-violet-400' : 'text-slate-400'
+                      }`}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+                        {vid.title}
+                      </div>
+                      <div className="text-[11px] font-mono text-slate-400 mt-1">
+                        {(vid.fileType || 'MP4')} · {vid.sizeMB} MB
+                      </div>
+                    </div>
+                  </button>
+                );
+              })
+            ) : (
+              <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 p-4 text-xs text-slate-500 dark:text-slate-400">
+                尚無 Podcast 影片檔案。
+              </div>
+            )}
+          </div>
+
+          <div className="lg:col-span-8">
+            {activeVideo ? (
+              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 sm:p-5 shadow-sm space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300">
+                      Podcast 影音
+                    </span>
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white mt-1.5">
+                      {activeVideo.title}
+                    </h2>
+                  </div>
+                  <a
+                    href={assetPath(activeVideo.url)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-medium text-slate-700 dark:text-slate-200 transition-colors"
+                  >
+                    另開視窗播放 <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+                <div className="rounded-xl overflow-hidden bg-black border border-slate-200 dark:border-slate-800">
+                  <video
+                    key={activeVideo.url}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    src={assetPath(activeVideo.url)}
+                    className="w-full aspect-video max-h-[540px]"
+                  />
+                </div>
+                <div className="text-xs font-mono text-slate-400 flex items-center justify-between">
+                  <span>檔案：{activeVideo.filename}</span>
+                  <span>{activeVideo.sizeMB} MB</span>
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : activeSubSection === 'pdfs' ? (
         <div className="space-y-5">
           {data.pdfGroups.map((group) => (
             <div
