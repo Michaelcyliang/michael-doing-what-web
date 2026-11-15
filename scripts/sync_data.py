@@ -65,11 +65,20 @@ OUTINGS_META = {
 }
 
 TOPIC_SLUGS = {
-    "AI 學習": "ai-learning",
     "人形機器人供應鏈拆解": "humanoid-robotics",
     "財經": "finance",
     "賽局理論": "game-theory",
+    "AI 學習": "ai-learning",
 }
+
+TOPIC_DISPLAY_NAMES = {
+    "人形機器人供應鏈拆解": "機器人供應鏈",
+    "財經": "財經研析",
+    "賽局理論": "賽局理論",
+    "AI 學習": "AI 學習",
+}
+
+TOPIC_ORDER = ["機器人供應鏈", "財經研析", "賽局理論", "AI 學習"]
 
 
 def safe_filename(name: str, idx: int, ext: str) -> str:
@@ -157,8 +166,8 @@ def sync_learning():
         for topic_dir in sorted(learning_src.iterdir()):
             if not topic_dir.is_dir() or topic_dir.name.startswith("."):
                 continue
-            topic_name = topic_dir.name
-            slug = TOPIC_SLUGS.get(topic_name, "general")
+            topic_name = TOPIC_DISPLAY_NAMES.get(topic_dir.name, topic_dir.name)
+            slug = TOPIC_SLUGS.get(topic_dir.name, "general")
             dest_dir = LEARNING_PDF_OUT / slug
             dest_dir.mkdir(parents=True, exist_ok=True)
 
@@ -188,11 +197,15 @@ def sync_learning():
                 )
             pdf_groups.append({"topic": topic_name, "slug": slug, "items": items})
 
+    pdf_groups.sort(
+        key=lambda g: TOPIC_ORDER.index(g["topic"]) if g["topic"] in TOPIC_ORDER else 999
+    )
+
     # 建立精選 Markdown 學習報告（確保學習報告模塊具備完整 Markdown 渲染與目錄導航）
     articles = [
         {
             "id": "ai-supply-chain-v5-synthesis",
-            "category": "財經",
+            "category": "財經研析",
             "title": "AI 產業鏈研究報告 v5：由消費者向上游推導的七層架構與硬體瓶頸",
             "date": "2026-11-02",
             "readTime": "12 分鐘",
@@ -297,7 +310,7 @@ def sync_learning():
         },
         {
             "id": "humanoid-robotics-supply-chain",
-            "category": "人形機器人供應鏈拆解",
+            "category": "機器人供應鏈",
             "title": "人形機器人供應鏈拆解與 Apple HALO 實體 AI 模擬管線全解析",
             "date": "2026-11-11",
             "readTime": "10 分鐘",
