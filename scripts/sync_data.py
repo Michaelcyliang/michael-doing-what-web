@@ -521,39 +521,10 @@ def generate_dashboard(fetch_live: bool = False):
 
     updated_label = "2026-11-13 收盤基準（TWSE / Frankfurter / yfinance）"
 
-    if fetch_live:
-        print("[Dashboard] 正在使用 yfinance 與 Frankfurter 抓取最新行情...")
-        for item in indices_list:
-            try:
-                q = fetch_yfinance_quote(item["symbol"])
-                item["value"] = f"{q['price']:,.2f}"
-                item["change"] = f"{q['pct']:+.2f}%"
-                item["up"] = q["pct"] >= 0
-            except Exception as e:
-                print(f"  ⚠️ yfinance 抓取 {item['symbol']} 失敗，保留基準值: {e}")
-        try:
-            q_twd = fetch_yfinance_quote("TWD=X")
-            diff = q_twd["price"] - q_twd["prev"]
-            fx_list[0]["rate"] = f"{q_twd['price']:.3f}"
-            fx_list[0]["change"] = f"{diff:+.3f} ({q_twd['pct']:+.2f}%)"
-            fx_list[0]["direction"] = "up" if diff >= 0 else "down"
-            if q_twd["history"]:
-                fx_list[0]["history"] = q_twd["history"]
-        except Exception as e:
-            print(f"  ⚠️ yfinance 抓取 USD/TWD 失敗: {e}")
-        try:
-            cny_data = fetch_frankfurter_cny()
-            fx_list[1]["rate"] = cny_data["rate"]
-            fx_list[1]["change"] = cny_data["change"]
-            fx_list[1]["direction"] = cny_data["direction"]
-            fx_list[1]["history"] = cny_data["history"]
-            fx_list[1]["note"] = f"來源：Frankfurter API ({cny_data['date']})"
-        except Exception as e:
-            print(f"  ⚠️ Frankfurter 抓取 USD/CNY 失敗: {e}")
-        updated_label = datetime.now(tw_tz).strftime("%Y-%m-%d %H:%M CST (即時同步)")
+    now_tw = datetime.now(tw_tz)
+    live_date = now_tw.strftime("%Y-%m-%d")
 
     for item in indices_list:
-        item.pop("symbol", None)
         item["source"] = "yfinance"
         item["sourceUrl"] = "https://finance.yahoo.com/"
         item["asOfDate"] = "2026-11-13"
@@ -564,6 +535,47 @@ def generate_dashboard(fetch_live: bool = False):
     fx_list[1]["source"] = "Frankfurter API"
     fx_list[1]["sourceUrl"] = "https://www.frankfurter.dev/"
     fx_list[1]["asOfDate"] = "2026-11-13"
+
+    if fetch_live:
+        print("[Dashboard] 正在使用 yfinance 與 Frankfurter 抓取最新行情...")
+        idx_ok = 0
+        for item in indices_list:
+            try:
+                q = fetch_yfinance_quote(item["symbol"])
+                item["value"] = f"{q['price']:,.2f}"
+                item["change"] = f"{q['pct']:+.2f}%"
+                item["up"] = q["pct"] >= 0
+                item["asOfDate"] = live_date
+                idx_ok += 1
+            except Exception as e:
+                print(f"  ⚠️ yfinance 抓取 {item['symbol']} 失敗，保留基準值: {e}")
+        print(f"  -> 指數即時更新成功 {idx_ok}/{len(indices_list)} 檔")
+        try:
+            q_twd = fetch_yfinance_quote("TWD=X")
+            diff = q_twd["price"] - q_twd["prev"]
+            fx_list[0]["rate"] = f"{q_twd['price']:.3f}"
+            fx_list[0]["change"] = f"{diff:+.3f} ({q_twd['pct']:+.2f}%)"
+            fx_list[0]["direction"] = "up" if diff >= 0 else "down"
+            fx_list[0]["asOfDate"] = live_date
+            fx_list[0]["note"] = f"來源：yfinance 即時匯率 ({live_date})"
+            if q_twd["history"]:
+                fx_list[0]["history"] = q_twd["history"]
+        except Exception as e:
+            print(f"  ⚠️ yfinance 抓取 USD/TWD 失敗: {e}")
+        try:
+            cny_data = fetch_frankfurter_cny()
+            fx_list[1]["rate"] = cny_data["rate"]
+            fx_list[1]["change"] = cny_data["change"]
+            fx_list[1]["direction"] = cny_data["direction"]
+            fx_list[1]["history"] = cny_data["history"]
+            fx_list[1]["asOfDate"] = cny_data["date"]
+            fx_list[1]["note"] = f"來源：Frankfurter API ({cny_data['date']})"
+        except Exception as e:
+            print(f"  ⚠️ Frankfurter 抓取 USD/CNY 失敗: {e}")
+        updated_label = now_tw.strftime("%Y-%m-%d %H:%M CST (即時同步)")
+
+    for item in indices_list:
+        item.pop("symbol", None)
 
     central_banks = [
         {
