@@ -480,6 +480,70 @@ def fetch_twse_watchlist():
     return quotes
 
 
+def load_latest_ai_scan(fallback_updates, fallback_report):
+    """從 Data_Pipeline/AI_Daily_Scan/*.md 讀取最新 AI 每日掃描報告；若無本地資料夾（例如 CI），則保留現有 dashboard.json 中的內容。"""
+    scan_dir = DATA_PIPELINE / "AI_Daily_Scan"
+    md_files = []
+    if scan_dir.exists():
+        md_files = sorted(
+            [
+                f
+                for f in scan_dir.iterdir()
+                if f.is_file() and not f.name.startswith(".") and f.name.lower() != "readme.md" and f.suffix.lower() == ".md"
+            ],
+            key=lambda p: p.name,
+            reverse=True,
+        )
+
+    if md_files:
+        latest_file = md_files[0]
+        raw = latest_file.read_text(encoding="utf-8")
+        meta = {}
+        body = raw
+        fm_match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)$", raw, re.DOTALL)
+        if fm_match:
+            fm_text, body = fm_match.group(1), fm_match.group(2)
+            for line in fm_text.splitlines():
+                if ":" in line:
+                    k, v = line.split(":", 1)
+                    meta[k.strip()] = v.strip().strip('"').strip("'")
+
+        ai_updates = fallback_updates
+        updates_match = re.search(r"<!--\s*AI_UPDATES_JSON\s*\n(.*?)\n-->", body, re.DOTALL)
+        if updates_match:
+            try:
+                parsed_updates = json.loads(updates_match.group(1).strip())
+                if isinstance(parsed_updates, list) and parsed_updates:
+                    ai_updates = parsed_updates
+            except json.JSONDecodeError as e:
+                print(f"  ⚠️ 解析 {latest_file.name} AI_UPDATES_JSON 失敗: {e}")
+            body = re.sub(r"<!--\s*AI_UPDATES_JSON\s*\n.*?\n-->\s*", "", body, flags=re.DOTALL)
+
+        date_str = meta.get("date", latest_file.stem)
+        report = {
+            "title": meta.get("title", f"AI 每日掃描獨立報告 ({date_str.replace('-', '/')})"),
+            "date": date_str,
+            "updatedAt": meta.get("updatedAt", f"{date_str} 06:45 CST"),
+            "schedule": meta.get("schedule", "每日清晨 06:45 更新"),
+            "summary": meta.get("summary", fallback_report.get("summary", "")),
+            "content": body.strip(),
+        }
+        print(f"[Dashboard] 已從 {latest_file.relative_to(PROJECT_ROOT)} 載入最新 AI 每日掃描獨立報告")
+        return ai_updates, report
+
+    existing_dash = DATA_OUT / "dashboard.json"
+    if existing_dash.exists():
+        try:
+            existing = json.loads(existing_dash.read_text(encoding="utf-8"))
+            if existing.get("dailyScanReport") and existing.get("aiUpdates"):
+                print("[Dashboard] 找不到本地 Data_Pipeline/AI_Daily_Scan，保留現有 dashboard.json 中的 AI 報告")
+                return existing["aiUpdates"], existing["dailyScanReport"]
+        except Exception as e:
+            print(f"  ⚠️ 讀取現有 dashboard.json AI 報告失敗: {e}")
+
+    return fallback_updates, fallback_report
+
+
 def generate_dashboard(fetch_live: bool = False):
     from datetime import datetime, timedelta, timezone
 
@@ -792,6 +856,9 @@ def generate_dashboard(fetch_live: bool = False):
 * **追蹤今夜輝達財報後的基準參數校正**：待 11/17 美股盤後輝達財報與電話會議指引公布後，順手將相關毛利率、Blackwell/Rubin 進度與資本支出最新數據同步回寫至 `Data_Pipeline` 與研究筆記。""",
         },
     }
+    dashboard["aiUpdates"], dashboard["dailyScanReport"] = load_latest_ai_scan(
+        dashboard["aiUpdates"], dashboard["dailyScanReport"]
+    )
     with open(DATA_OUT / "dashboard.json", "w", encoding="utf-8") as fp:
         json.dump(dashboard, fp, ensure_ascii=False, indent=2)
     print("[Dashboard] 已產出 public/data/dashboard.json")

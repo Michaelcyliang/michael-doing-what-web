@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-11-17 08:51 CST (即時同步)",
-  "edition": "晨間戰情第 2026-1117 期（2026-11-17 08:51 CST 更新）",
+  "updatedAt": "2026-11-17 08:55 CST (即時同步)",
+  "edition": "晨間戰情第 2026-1117 期（2026-11-17 08:55 CST 更新）",
   "verification": {
     "totalChecked": 15,
     "passed": 15,
     "warnings": [],
-    "verifiedAt": "2026-11-17 08:51 CST",
+    "verifiedAt": "2026-11-17 08:55 CST",
     "pipeline": "MacroMicro + Frankfurter + yfinance"
   },
   "centralBanks": [
@@ -38,7 +38,7 @@
       "name": "台灣中央銀行 (CBC)",
       "rate": "重貼現率 2.00%",
       "stance": "利率按兵不動・匯市穩健調節",
-      "summary": "台灣 AI 伺服器與半導體出口動能強勁，最新 USD/TWD 報價 32.971（2026-11-17）。",
+      "summary": "台灣 AI 伺服器與半導體出口動能強勁，最新 USD/TWD 報價 32.972（2026-11-17）。",
       "impact": "外資與內資聚焦台股晶片設計與先進封裝族群，留意短線波動風險。",
       "source": "台灣央行 / MacroMicro",
       "sourceUrl": "https://www.cbc.gov.tw/en/lp-700-2.html",
@@ -62,8 +62,8 @@
     {
       "pair": "USD/TWD",
       "label": "美元兌新台幣",
-      "rate": "32.971",
-      "change": "+0.095 (+0.29%)",
+      "rate": "32.972",
+      "change": "+0.096 (+0.29%)",
       "direction": "up",
       "note": "來源：yfinance 即時匯率 (2026-11-17)",
       "history": [
@@ -73,7 +73,7 @@
         32.8619,
         32.939,
         32.8764,
-        32.971
+        32.972
       ],
       "source": "央行 / yfinance",
       "sourceUrl": "https://www.cbc.gov.tw/en/lp-700-2.html",

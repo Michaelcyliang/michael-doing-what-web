@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-11-17 08:51 CST (即時同步)",
+  "updatedAt": "2026-11-17 08:55 CST (即時同步)",
   "verification": {
     "totalChecked": 7,
     "passed": 7,
     "warnings": [],
-    "verifiedAt": "2026-11-17 08:51 CST",
+    "verifiedAt": "2026-11-17 08:55 CST",
     "pipeline": "TWSE / TPEx OpenAPI"
   },
   "aiSupplyChain": {
