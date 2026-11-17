@@ -3,8 +3,8 @@ on:
   push:
     branches: ["main"]
   schedule:
-    # 每日台灣時間 07:07 (UTC 23:07) 與 19:07 (UTC 11:07) 避開整點尖峰塞車，自動抓取最新金融數據並發布
-    - cron: '7 23 * * *'
+    # 每日台灣時間 06:50 (UTC 22:50) 與 19:07 (UTC 11:07) 自動抓取最新金融數據並發布
+    - cron: '50 22 * * *'
     - cron: '7 11 * * *'
   workflow_dispatch:
 permissions:

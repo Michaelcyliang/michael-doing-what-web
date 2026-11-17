@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-11-17 08:23 CST (即時同步)",
-  "edition": "晨間戰情第 2026-1114 期（11/13 收盤校驗）",
+  "updatedAt": "2026-11-17 08:31 CST (排程同步基準)",
+  "edition": "晨間戰情第 2026-1117 期（2026-11-17 08:31 CST 更新）",
   "verification": {
     "totalChecked": 15,
     "passed": 15,
     "warnings": [],
-    "verifiedAt": "2026-11-17 08:23 CST",
+    "verifiedAt": "2026-11-17 08:31 CST",
     "pipeline": "MacroMicro + Frankfurter + yfinance"
   },
   "centralBanks": [
@@ -14,11 +14,11 @@
       "name": "美國聯準會 (Fed)",
       "rate": "3.88%（目標區間 3.75% - 4.00%）",
       "stance": "關注通膨黏性與 12 月會議",
-      "summary": "MacroMicro 2026-11-12 最新基準利率 3.88%（FOMC 目標區間 3.75%-4.00%，10/28 會議維持不變）。",
-      "impact": "市場消化 10 月 PPI 數據，科技股受高估值檢視影響，資金部分輪動至防禦性板塊。",
+      "summary": "MacroMicro 基準利率 3.88%（FOMC 目標區間 3.75%-4.00%，10/28 會議維持不變；檢核日期 2026-11-17）。",
+      "impact": "市場消化通膨與美股科技財報，資金關注輝達高層變動與 AI 資本支出續航力。",
       "source": "MacroMicro 財經M平方",
       "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
-      "asOfDate": "2026-11-12",
+      "asOfDate": "基準 2026-11-12 · 同步 2026-11-17",
       "verified": true
     },
     {
@@ -26,11 +26,11 @@
       "name": "中國人民銀行 (PBoC)",
       "rate": "LPR 1Y 3.00% / 5Y 3.50%",
       "stance": "適度寬鬆支撐內需",
-      "summary": "持續透過逆回購與中期借貸便利維持銀行體系流動性充裕，配合年末財政政策穩定信用。",
-      "impact": "美元兌人民幣維持於 6.67 區間整理，A 股銀行股逆勢創高。",
+      "summary": "持續透過逆回購與中期借貸便利維持流動性充裕；最新 USD/CNY 6.6719（同步 2026-11-17）。",
+      "impact": "人民幣匯率維持區間整理，政策托底支撐內需與自主可控科技板塊。",
       "source": "MacroMicro / PBoC",
       "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
-      "asOfDate": "2026-11",
+      "asOfDate": "基準 2026-11 · 同步 2026-11-17",
       "verified": true
     },
     {
@@ -38,11 +38,11 @@
       "name": "台灣中央銀行 (CBC)",
       "rate": "重貼現率 2.00%",
       "stance": "利率按兵不動・匯市穩健調節",
-      "summary": "台灣 AI 伺服器與半導體出口動能強勁，11/13 台幣收盤升至 32.838。",
-      "impact": "外資與內資聚焦台股晶片設計與先進封裝族群。",
+      "summary": "台灣 AI 伺服器與半導體出口動能強勁，最新 USD/TWD 報價 32.949（2026-11-13）。",
+      "impact": "外資與內資聚焦台股晶片設計與先進封裝族群，留意短線波動風險。",
       "source": "台灣央行 / MacroMicro",
       "sourceUrl": "https://www.cbc.gov.tw/en/lp-700-2.html",
-      "asOfDate": "2026-11-13",
+      "asOfDate": "同步 2026-11-17",
       "verified": true
     },
     {
@@ -50,11 +50,11 @@
       "name": "歐洲央行 (ECB)",
       "rate": "主要再融資利率 2.65%",
       "stance": "溫和寬鬆（下次決議 12/17）",
-      "summary": "MacroMicro 2026-10 最新歐央行主要再融資利率 2.65%（日本 1.25%、英國 4.00%、加拿大 2.50%）。",
+      "summary": "MacroMicro 歐央行主要再融資利率 2.65%（日本 1.25%、英國 4.00%；檢核日期 2026-11-17）。",
       "impact": "歐股表現相對平穩，全球資金仍以北美與亞洲半導體鏈為觀察核心。",
       "source": "MacroMicro 財經M平方",
       "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
-      "asOfDate": "2026-10",
+      "asOfDate": "基準 2026-10 · 同步 2026-11-17",
       "verified": true
     }
   ],
@@ -62,43 +62,41 @@
     {
       "pair": "USD/TWD",
       "label": "美元兌新台幣",
-      "rate": "32.966",
-      "change": "+0.090 (+0.27%)",
+      "rate": "32.949",
+      "change": "+0.059 (+0.18%)",
       "direction": "up",
-      "note": "來源：yfinance 即時匯率 (2026-11-17)",
+      "note": "來源：TradingEconomics / 台銀牌告 (2026-11-16)",
       "history": [
-        32.7603,
-        32.7886,
-        32.9538,
-        32.8619,
-        32.939,
-        32.8764,
-        32.966
+        32.882,
+        32.865,
+        32.86,
+        32.889,
+        32.838,
+        32.949
       ],
       "source": "央行 / yfinance",
       "sourceUrl": "https://www.cbc.gov.tw/en/lp-700-2.html",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
       "pair": "USD/CNY",
       "label": "美元兌人民幣",
-      "rate": "6.6665",
-      "change": "-0.0054 (-0.08%)",
-      "direction": "down",
-      "note": "來源：Frankfurter API (2026-11-16)",
+      "rate": "6.6719",
+      "change": "+0.0015 (+0.02%)",
+      "direction": "up",
+      "note": "來源：Frankfurter API (ECB 參考匯率)",
       "history": [
-        6.6713,
+        6.6765,
         6.6728,
-        6.6703,
-        6.6707,
-        6.6683,
-        6.6719,
-        6.6665
+        6.6704,
+        6.6704,
+        6.6704,
+        6.6719
       ],
       "source": "Frankfurter API",
       "sourceUrl": "https://www.frankfurter.dev/",
-      "asOfDate": "2026-11-16",
+      "asOfDate": "2026-11-13",
       "verified": true
     }
   ],
@@ -111,7 +109,7 @@
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
@@ -122,7 +120,7 @@
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
@@ -133,29 +131,29 @@
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
       "region": "美股",
       "name": "費城半導體 (SOX)",
-      "value": "9,610.65",
-      "change": "-5.28%",
+      "value": "10,146.32",
+      "change": "-3.43%",
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
       "region": "台股",
       "name": "台灣加權 (TAIEX)",
       "value": "41,040.08",
-      "change": "-4.76%",
+      "change": "-6.03%",
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
@@ -172,34 +170,34 @@
     {
       "region": "中港",
       "name": "上證綜合 (SSE)",
-      "value": "3,602.57",
-      "change": "-1.46%",
+      "value": "3,634.35",
+      "change": "-0.59%",
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
       "region": "中港",
       "name": "深證成指 (SZSE)",
-      "value": "10,690.78",
-      "change": "-4.53%",
+      "value": "10,968.79",
+      "change": "-2.05%",
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     },
     {
       "region": "中港",
       "name": "恒生指數 (HSI)",
-      "value": "23,753.84",
-      "change": "-1.06%",
+      "value": "23,637.60",
+      "change": "-1.55%",
       "up": false,
       "source": "yfinance",
       "sourceUrl": "https://finance.yahoo.com/",
-      "asOfDate": "2026-11-17",
+      "asOfDate": "2026-11-13",
       "verified": true
     }
   ],

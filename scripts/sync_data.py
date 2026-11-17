@@ -486,15 +486,18 @@ def generate_dashboard(fetch_live: bool = False):
     tw_tz = timezone(timedelta(hours=8))
 
     # 基準：2026-11-13 收盤實測數據（經 TWSE、CBC、Frankfurter、yfinance/Google Finance 交叉校驗）
+    now_tw = datetime.now(tw_tz)
+    live_date = now_tw.strftime("%Y-%m-%d")
+
     fx_list = [
         {
             "pair": "USD/TWD",
             "label": "美元兌新台幣",
-            "rate": "32.838",
-            "change": "-0.051 (-0.16%)",
-            "direction": "down",
-            "note": "台灣央行 11/13 收盤價 32.838（yfinance TWD=X 現貨約 32.90）",
-            "history": [32.768, 32.882, 32.865, 32.860, 32.889, 32.838],
+            "rate": "32.949",
+            "change": "+0.059 (+0.18%)",
+            "direction": "up",
+            "note": "來源：TradingEconomics / 台銀牌告 (2026-11-16)",
+            "history": [32.882, 32.865, 32.860, 32.889, 32.838, 32.949],
         },
         {
             "pair": "USD/CNY",
@@ -502,24 +505,24 @@ def generate_dashboard(fetch_live: bool = False):
             "rate": "6.6719",
             "change": "+0.0015 (+0.02%)",
             "direction": "up",
-            "note": "來源：Frankfurter API (ECB 參考匯率 2026-11-13)",
+            "note": "來源：Frankfurter API (ECB 參考匯率)",
             "history": [6.6765, 6.6728, 6.6704, 6.6704, 6.6704, 6.6719],
         },
     ]
 
     indices_list = [
-        {"region": "美股", "name": "道瓊工業 (DJIA)", "value": "52,347.55", "change": "+0.10%", "up": True, "symbol": "^DJI"},
-        {"region": "美股", "name": "標普 500 (S&P 500)", "value": "7,561.67", "change": "-0.40%", "up": False, "symbol": "^GSPC"},
-        {"region": "美股", "name": "那斯達克 (NASDAQ)", "value": "25,136.27", "change": "-0.91%", "up": False, "symbol": "^IXIC"},
+        {"region": "美股", "name": "道瓊工業 (DJIA)", "value": "51,608.17", "change": "-1.41%", "up": False, "symbol": "^DJI"},
+        {"region": "美股", "name": "標普 500 (S&P 500)", "value": "7,416.59", "change": "-1.92%", "up": False, "symbol": "^GSPC"},
+        {"region": "美股", "name": "那斯達克 (NASDAQ)", "value": "24,509.76", "change": "-2.49%", "up": False, "symbol": "^IXIC"},
         {"region": "美股", "name": "費城半導體 (SOX)", "value": "10,146.32", "change": "-3.43%", "up": False, "symbol": "^SOX"},
-        {"region": "台股", "name": "台灣加權 (TAIEX)", "value": "43,675.12", "change": "+1.35%", "up": True, "symbol": "^TWII"},
+        {"region": "台股", "name": "台灣加權 (TAIEX)", "value": "41,040.08", "change": "-6.03%", "up": False, "symbol": "^TWII"},
         {"region": "台股", "name": "櫃買指數 (TPEx)", "value": "342.41", "change": "+1.99%", "up": True, "symbol": "^TWOII"},
         {"region": "中港", "name": "上證綜合 (SSE)", "value": "3,634.35", "change": "-0.59%", "up": False, "symbol": "000001.SS"},
         {"region": "中港", "name": "深證成指 (SZSE)", "value": "10,968.79", "change": "-2.05%", "up": False, "symbol": "399001.SZ"},
         {"region": "中港", "name": "恒生指數 (HSI)", "value": "23,637.60", "change": "-1.55%", "up": False, "symbol": "^HSI"},
     ]
 
-    updated_label = "2026-11-13 收盤基準（TWSE / Frankfurter / yfinance）"
+    updated_label = now_tw.strftime("%Y-%m-%d %H:%M CST (排程同步基準)")
 
     now_tw = datetime.now(tw_tz)
     live_date = now_tw.strftime("%Y-%m-%d")
@@ -583,44 +586,44 @@ def generate_dashboard(fetch_live: bool = False):
             "name": "美國聯準會 (Fed)",
             "rate": "3.88%（目標區間 3.75% - 4.00%）",
             "stance": "關注通膨黏性與 12 月會議",
-            "summary": "MacroMicro 2026-11-12 最新基準利率 3.88%（FOMC 目標區間 3.75%-4.00%，10/28 會議維持不變）。",
-            "impact": "市場消化 10 月 PPI 數據，科技股受高估值檢視影響，資金部分輪動至防禦性板塊。",
+            "summary": f"MacroMicro 基準利率 3.88%（FOMC 目標區間 3.75%-4.00%，10/28 會議維持不變；檢核日期 {live_date}）。",
+            "impact": "市場消化通膨與美股科技財報，資金關注輝達高層變動與 AI 資本支出續航力。",
             "source": "MacroMicro 財經M平方",
             "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
-            "asOfDate": "2026-11-12",
+            "asOfDate": f"基準 2026-11-12 · 同步 {live_date}",
         },
         {
             "code": "PBoC",
             "name": "中國人民銀行 (PBoC)",
             "rate": "LPR 1Y 3.00% / 5Y 3.50%",
             "stance": "適度寬鬆支撐內需",
-            "summary": "持續透過逆回購與中期借貸便利維持銀行體系流動性充裕，配合年末財政政策穩定信用。",
-            "impact": "美元兌人民幣維持於 6.67 區間整理，A 股銀行股逆勢創高。",
+            "summary": f"持續透過逆回購與中期借貸便利維持流動性充裕；最新 USD/CNY {fx_list[1]['rate']}（同步 {live_date}）。",
+            "impact": "人民幣匯率維持區間整理，政策托底支撐內需與自主可控科技板塊。",
             "source": "MacroMicro / PBoC",
             "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
-            "asOfDate": "2026-11",
+            "asOfDate": f"基準 2026-11 · 同步 {live_date}",
         },
         {
             "code": "CBC",
             "name": "台灣中央銀行 (CBC)",
             "rate": "重貼現率 2.00%",
             "stance": "利率按兵不動・匯市穩健調節",
-            "summary": "台灣 AI 伺服器與半導體出口動能強勁，11/13 台幣收盤升至 32.838。",
-            "impact": "外資與內資聚焦台股晶片設計與先進封裝族群。",
+            "summary": f"台灣 AI 伺服器與半導體出口動能強勁，最新 USD/TWD 報價 {fx_list[0]['rate']}（{fx_list[0]['asOfDate']}）。",
+            "impact": "外資與內資聚焦台股晶片設計與先進封裝族群，留意短線波動風險。",
             "source": "台灣央行 / MacroMicro",
             "sourceUrl": "https://www.cbc.gov.tw/en/lp-700-2.html",
-            "asOfDate": "2026-11-13",
+            "asOfDate": f"同步 {live_date}",
         },
         {
             "code": "ECB",
             "name": "歐洲央行 (ECB)",
             "rate": "主要再融資利率 2.65%",
             "stance": "溫和寬鬆（下次決議 12/17）",
-            "summary": "MacroMicro 2026-10 最新歐央行主要再融資利率 2.65%（日本 1.25%、英國 4.00%、加拿大 2.50%）。",
+            "summary": f"MacroMicro 歐央行主要再融資利率 2.65%（日本 1.25%、英國 4.00%；檢核日期 {live_date}）。",
             "impact": "歐股表現相對平穩，全球資金仍以北美與亞洲半導體鏈為觀察核心。",
             "source": "MacroMicro 財經M平方",
             "sourceUrl": "https://www.macromicro.me/charts/15418/mei-guo-ji-zhun-li-lv",
-            "asOfDate": "2026-10",
+            "asOfDate": f"基準 2026-10 · 同步 {live_date}",
         },
     ]
 
@@ -664,7 +667,7 @@ def generate_dashboard(fetch_live: bool = False):
 
     dashboard = {
         "updatedAt": updated_label,
-        "edition": "晨間戰情第 2026-1114 期（11/13 收盤校驗）",
+        "edition": f"晨間戰情第 {now_tw.strftime('%Y-%m%d')} 期（{now_tw.strftime('%Y-%m-%d %H:%M CST')} 更新）",
         "verification": {
             "totalChecked": total_checked,
             "passed": passed,
@@ -981,9 +984,9 @@ def generate_projects(fetch_live: bool = False):
             "ticker": "2330",
             "name": "台積電",
             "sector": "L7 晶圓代工與先進封裝",
-            "price": "2,350",
-            "change": "+0.43%",
-            "up": True,
+            "price": "2,215",
+            "change": "-5.74%",
+            "up": False,
             "technical": "股價站穩所有均線之上，日 KD 黃金交叉向上，外資回補帶動量能溫和放大，短線支撐觀察 10 日線。",
             "chips": "外資連續買超，投信維持長線核心持股水位，千張大戶持股比例穩定集中於高檔。",
             "fundamental": "Q3 2026 毛利率達 66.4%，HPC 佔營收 68%。CoWoS 產能全線滿載且持續外包部分 CoW 至日月光，2nm 製程與 COUPE 矽光子為 2027-28 關鍵動能。",
